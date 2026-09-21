@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>İman Power - AI Eğitim & Ders Portalı</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- KaTeX Matematik Sembol Render Desteği -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #030712;
+      --card-bg: rgba(15, 23, 42, 0.82);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --primary: #f43f5e;
+      --primary-hover: #e11d48;
+      --primary-glow: rgba(244, 63, 94, 0.35);
+      --ai-purple: #8b5cf6;
+      --ai-glow: rgba(139, 92, 246, 0.3);
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      height: 100%; width: 100%; overflow: hidden; background: #010308; color: var(--text-main);
+    }
+
+    #app-container {
+      width: 100%; max-width: 500px; height: 100%;
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(244, 63, 94, 0.15), transparent 380px),
+        radial-gradient(circle at 90% 90%, rgba(139, 92, 246, 0.15), transparent 380px),
+        radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05), transparent 450px);
+      position: relative; display: flex; flex-direction: column;
+      margin: 0 auto; border-left: 1px solid var(--card-border); border-right: 1px solid var(--card-border);
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.18); border-radius: 10px; }
+
+    header {
+      background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      padding: 10px 14px; display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--card-border); z-index: 50; position: absolute; top: 0; left: 0; right: 0; height: 60px;
+    }
+
+    .brand-group { display: flex; align-items: center; gap: 10px; }
+    .brand-logo { 
+      width: 36px; height: 36px; border-radius: 12px; background: linear-gradient(135deg, var(--primary), #9f1239); 
+      display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.95rem; color: #fff;
+      box-shadow: 0 0 14px var(--primary-glow);
+    }
+    .brand-title { font-size: 0.95rem; font-weight: 800; letter-spacing: -0.3px; color: #fff; }
+    .brand-sub { font-size: 0.65rem; color: var(--ai-purple); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .user-badge {
+      background: rgba(255, 255, 255, 0.06); border: 1px solid var(--card-border);
+      padding: 5px 10px; border-radius: 20px; display: flex; align-items: center; gap: 8px; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .user-badge:hover { background: rgba(255, 255, 255, 0.12); }
+    .user-avatar { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, var(--ai-purple), #4c1d95); display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; }
+    .user-name { font-size: 0.78rem; font-weight: 700; max-width: 80px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; }
+
+    .hdr-actions { display: flex; align-items: center; gap: 6px; }
+    .hdr-btn {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); color: #fff;
+      width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 0.9rem; transition: all 0.2s;
+    }
+    .hdr-btn:hover { background: rgba(255,255,255,0.12); }
+    .hdr-btn.admin-btn { background: rgba(245, 158, 11, 0.15); border-color: var(--amber); color: var(--amber); }
+    .hdr-btn.mic-active { background: rgba(244, 63, 94, 0.3) !important; border-color: var(--primary) !important; animation: pulse 1.2s infinite; }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(244, 63, 94, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+    }
+
+    .lgs-countdown-card {
+      background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(244, 63, 94, 0.4);
+      border-radius: 20px; padding: 20px 14px; text-align: center;
+      box-shadow: 0 0 25px rgba(244, 63, 94, 0.25); margin-bottom: 16px;
+    }
+    .lgs-title { font-size: 0.88rem; font-weight: 900; color: #f43f5e; text-shadow: 0 0 10px rgba(244,63,94,0.6); text-transform: uppercase; letter-spacing: 0.8px; }
+    .neon-timer { display: flex; justify-content: center; gap: 10px; margin-top: 14px; }
+    .timer-box { background: rgba(3, 7, 18, 0.85); border: 1px solid rgba(244, 63, 94, 0.4); border-radius: 12px; padding: 8px 10px; min-width: 65px; }
+    .timer-num { font-size: 1.4rem; font-weight: 900; color: #fff; text-shadow: 0 0 12px var(--primary); }
+    .timer-label { font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; margin-top: 2px; }
+
+    #drawer-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.65); z-index: 150; opacity: 0; pointer-events: none; backdrop-filter: blur(4px); transition: opacity 0.3s; }
+    #drawer-overlay.active { opacity: 1; pointer-events: auto; }
+
+    #history-drawer {
+      position: absolute; top: 0; bottom: 0; left: -100%; width: 82%; max-width: 340px;
+      background: rgba(8, 12, 26, 0.96); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+      z-index: 200; border-right: 1px solid var(--card-border);
+      transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex; flex-direction: column; padding: 16px;
+    }
+    #history-drawer.active { left: 0; }
+
+    .drawer-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .drawer-title { font-size: 1rem; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px; }
+
+    .search-box {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); border-radius: 12px;
+      padding: 8px 12px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .search-box input { background: transparent; border: none; color: #fff; font-size: 0.82rem; width: 100%; outline: none; }
+
+    .new-chat-btn {
+      background: linear-gradient(135deg, var(--ai-purple), #6d28d9); color: #fff; border: none;
+      padding: 11px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 14px;
+      box-shadow: 0 4px 15px var(--ai-glow); transition: transform 0.15s;
+    }
+    .new-chat-btn:active { transform: scale(0.97); }
+
+    .history-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+    .history-item {
+      background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); padding: 10px 12px; border-radius: 12px;
+      display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s;
+    }
+    .history-item:hover, .history-item.active { background: rgba(139, 92, 246, 0.15); border-color: var(--ai-purple); }
+    .history-info { display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+    .history-item-title { font-size: 0.82rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 190px; }
+    .history-item-date { font-size: 0.65rem; color: var(--text-muted); }
+    .delete-chat-btn { color: #f43f5e; opacity: 0.6; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; }
+    .delete-chat-btn:hover { opacity: 1; background: rgba(244,63,94,0.15); }
+
+    main { flex: 1; padding: 60px 0 65px 0; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+
+    .tab-section { display: none; height: 100%; width: 100%; flex-direction: column; overflow-y: auto; padding: 14px; }
+    .tab-section.active { display: flex; }
+
+    #sec-ai { padding: 10px 12px; flex: 1; overflow: hidden; flex-direction: column; }
+    #ai-chat-box { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding-right: 4px; padding-bottom: 8px; }
+
+    .msg-group { display: flex; flex-direction: column; gap: 4px; max-width: 92%; }
+    .msg-group.user { align-self: flex-end; }
+    .msg-group.ai { align-self: flex-start; }
+
+    .user-msg {
+      background: linear-gradient(135deg, var(--primary), #be123c); color: #fff;
+      border-radius: 18px 18px 4px 18px; padding: 12px 15px; font-size: 0.88rem; line-height: 1.5;
+      box-shadow: 0 4px 15px var(--primary-glow); word-break: break-word;
+    }
+
+    .ai-msg {
+      background: rgba(15, 23, 42, 0.88); border: 1px solid rgba(139, 92, 246, 0.3); color: #f1f5f9;
+      border-radius: 18px 18px 18px 4px; padding: 14px 15px; font-size: 0.88rem; line-height: 1.55;
+      box-shadow: 0 4px 20px var(--ai-glow); backdrop-filter: blur(10px); word-break: break-word; position: relative;
+    }
+    .ai-msg-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 4px; }
+    .ai-title { font-weight: 800; font-size: 0.78rem; color: var(--ai-purple); display: flex; align-items: center; gap: 6px; }
+
+    .msg-toolbar { display: flex; gap: 6px; margin-top: 8px; justify-content: flex-end; }
+    .msg-tool-btn { background: rgba(255,255,255,0.06); border: 1px solid var(--card-border); color: var(--text-muted); padding: 4px 8px; border-radius: 8px; font-size: 0.72rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 4px; }
+    .msg-tool-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .msg-tool-btn.tts-active { background: rgba(16, 185, 129, 0.2); border-color: var(--emerald); color: var(--emerald); }
+
+    .quick-chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 6px; flex-shrink: 0; }
+    .quick-chips::-webkit-scrollbar { display: none; }
+    .chip-btn {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); color: #e2e8f0;
+      padding: 6px 12px; border-radius: 20px; font-size: 0.74rem; font-weight: 600; white-space: nowrap;
+      cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 4px; flex-shrink: 0;
+    }
+    .chip-btn:hover { background: rgba(139, 92, 246, 0.2); border-color: var(--ai-purple); color: #fff; }
+
+    .chat-input-wrapper {
+      background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px); border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0;
+    }
+
+    .input-row { display: flex; gap: 6px; align-items: center; }
+    .input-row input[type="text"] { flex: 1; background: transparent; border: none; color: #fff; font-size: 0.9rem; outline: none; padding: 8px 4px; }
+    .input-row input[type="text"]::placeholder { color: var(--text-muted); }
+
+    .send-btn {
+      background: linear-gradient(135deg, var(--ai-purple), #6d28d9); color: #fff; border: none;
+      padding: 8px 18px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; cursor: pointer;
+      box-shadow: 0 4px 15px var(--ai-glow); transition: transform 0.15s; height: 38px; flex-shrink: 0;
+    }
+    .send-btn:active { transform: scale(0.96); }
+
+    .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 16px; margin-bottom: 14px; backdrop-filter: blur(12px); }
+    .card-title { font-size: 0.95rem; font-weight: 800; color: #fff; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+
+    .wa-banner { background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 95, 70, 0.3)); border: 1px solid var(--emerald); border-radius: 16px; padding: 14px; margin-bottom: 14px; text-align: center; }
+    .wa-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--emerald); color: #000; font-weight: 900; font-size: 0.82rem; padding: 10px 16px; border-radius: 12px; text-decoration: none; margin-top: 10px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
+
+    .pomo-display { text-align: center; margin: 16px 0; }
+    .pomo-time { font-size: 3.2rem; font-weight: 900; letter-spacing: 2px; color: var(--emerald); text-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+    .pomo-status { font-size: 0.82rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; }
+    .pomo-controls { display: flex; gap: 8px; justify-content: center; margin-bottom: 12px; }
+    .pomo-btn { padding: 10px 20px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: all 0.2s; font-size: 0.85rem; }
+    .pomo-btn-start { background: var(--emerald); color: #000; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
+    .pomo-btn-pause { background: var(--amber); color: #000; }
+    .pomo-btn-reset { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid var(--card-border); }
+    .pomo-badge-box { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 12px; text-align: center; }
+
+    .news-item { border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; margin-bottom: 12px; position: relative; }
+    .news-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .news-tag { font-size: 0.65rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 4px; display: inline-block; background: rgba(244,63,94,0.1); padding: 2px 8px; border-radius: 6px; }
+    .news-head { font-size: 0.9rem; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .news-img { width: 100%; max-height: 280px; object-fit: cover; border-radius: 12px; margin: 8px 0; display: block; border: 1px solid var(--card-border); }
+    .news-body { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+    .news-date { font-size: 0.65rem; color: var(--text-muted); margin-top: 6px; text-align: right; }
+    .news-del-btn { position: absolute; top: 0; right: 0; background: rgba(244,63,94,0.2); color: var(--primary); border: none; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; cursor: pointer; font-weight: 700; }
+
+    .admin-form-group { margin-bottom: 12px; text-align: left; }
+    .admin-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; display: block; }
+    .admin-input, .admin-textarea { width: 100%; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.04); color: #fff; outline: none; font-size: 0.85rem; }
+    .admin-textarea { height: 80px; resize: none; }
+    .admin-btn-action { width: 100%; background: linear-gradient(135deg, var(--amber), #b45309); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 0.88rem; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); margin-top: 4px; }
+
+    nav {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+      background: rgba(3, 7, 18, 0.94); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+      border-top: 1px solid var(--card-border); display: flex; padding: 4px 4px; z-index: 100;
+    }
+
+    .nav-btn {
+      background: transparent; border: none; color: var(--text-muted); padding: 4px 2px; border-radius: 12px;
+      font-size: 0.65rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 2px; flex: 1; cursor: pointer; transition: all 0.2s;
+    }
+    .nav-btn.active { color: #fff; background: rgba(255,255,255,0.08); }
+    .nav-btn.active .nav-icon { transform: translateY(-1px); color: var(--primary); }
+    .nav-icon { font-size: 1.1rem; transition: transform 0.2s; }
+
+    .modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 300; display: flex;
+      align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(15px);
+      opacity: 0; pointer-events: none; transition: opacity 0.25s;
+    }
+    .modal.active { opacity: 1; pointer-events: auto; }
+
+    .modal-card {
+      background: var(--bg-dark); border: 1px solid var(--card-border); border-radius: 24px; padding: 22px;
+      width: 100%; max-width: 360px; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.8);
+      transform: scale(0.95); transition: transform 0.25s;
+    }
+    .modal.active .modal-card { transform: scale(1); }
+
+    .modal-title { font-size: 1.1rem; font-weight: 900; color: #fff; margin-bottom: 12px; }
+    .modal-input { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.04); color: #fff; margin-bottom: 10px; outline: none; font-size: 0.85rem; }
+    .modal-input:focus { border-color: var(--ai-purple); }
+
+    .modal-btn { width: 100%; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 0.88rem; margin-top: 4px; box-shadow: 0 4px 15px var(--primary-glow); }
+    .modal-btn.sec { background: transparent; border: 1px solid var(--card-border); box-shadow: none; margin-top: 8px; }
+  </style>
+
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+</head>
+<body>
+
+<div id="app-container">
+  <header>
+    <div class="brand-group">
+      <div class="brand-logo">IP</div>
+      <div>
+        <div class="brand-title">İMAN POWER</div>
+        <div class="brand-sub">AI EĞİTİM & DERS PORTALI</div>
+      </div>
+    </div>
+
+    <div class="hdr-actions">
+      <button class="hdr-btn admin-btn" title="Admin Paneli Girişi" onclick="openAdminModal()">👑</button>
+      <div class="user-badge" onclick="openProfileModal()">
+        <div class="user-avatar" id="hdr-avatar">U</div>
+        <div class="user-name" id="hdr-username">Kullanıcı</div>
+      </div>
+      <button class="hdr-btn" title="Sohbet Geçmişi" onclick="toggleDrawer(true)">📜</button>
+      <button class="hdr-btn" title="Yeni Sohbet" onclick="createNewChat()">➕</button>
+    </div>
+  </header>
+
+  <div id="drawer-overlay" onclick="toggleDrawer(false)"></div>
+  <div id="history-drawer">
+    <div class="drawer-top">
+      <div class="drawer-title"><span>📜</span> Sohbet Geçmişi</div>
+      <button class="hdr-btn" onclick="toggleDrawer(false)">✕</button>
+    </div>
+
+    <button class="new-chat-btn" onclick="createNewChat()">
+      <span>➕</span> Yeni Ders / Sohbet Başlat
+    </button>
+
+    <div class="search-box">
+      <span>🔍</span>
+      <input type="text" id="chat-search-input" placeholder="Sohbetlerde ara..." oninput="filterChatHistory()">
+    </div>
+
+    <div id="history-list-container" class="history-list"></div>
+  </div>
+
+  <main>
+    <section id="sec-ai" class="tab-section active">
+      <div id="ai-chat-box"></div>
+
+      <div class="quick-chips">
+        <button class="chip-btn" onclick="sendQuickPrompt('İman Power FC futbol takımının kadrosunu ve kurucusunu detaylı anlat.')">⚽ İman Power FC Kadrosu</button>
+        <button class="chip-btn" onclick="sendQuickPrompt('Ana uygulama var mı? WhatsApp üzerinden nasıl iletişime geçebilirim?')">📱 Ana Uygulama & WhatsApp</button>
+        <button class="chip-btn" onclick="sendQuickPrompt('LGS / YKS için haftalık ders çalışma programı hazırla.')">📚 Çalışma Programı</button>
+        <button class="chip-btn" onclick="sendQuickPrompt('Matematik ve Fen derslerinde verimli soru çözme taktikleri ver.')">🧠 Soru Çözüm Taktikleri</button>
+        <button class="chip-btn" onclick="sendQuickPrompt('Sınav stresiyle başa çıkma ve motivasyon konuşması yap.')">🔥 Sınav Motivasyonu</button>
+      </div>
+
+      <div class="chat-input-wrapper">
+        <div id="image-preview-badge" style="display:none; font-size:0.75rem; color:var(--emerald); padding:2px 6px; font-weight:700;"></div>
+        <div class="input-row">
+          <input type="file" id="ai-image-input" accept="image/*" style="display:none;" onchange="handleImageSelect(this)">
+          <button type="button" onclick="document.getElementById('ai-image-input').click()" class="hdr-btn" style="height:38px; width:38px; flex-shrink:0;" title="Soru / Ders Görseli Yükle">📷</button>
+          <button type="button" id="mic-btn" onclick="toggleSpeechToText()" class="hdr-btn" style="height:38px; width:38px; flex-shrink:0;" title="Sesle Konuş">🎙️</button>
+          <input type="text" id="ai-input" placeholder="Soru sorun, konuşun veya resim ekleyin..." onkeypress="if(event.key==='Enter') askAI()">
+          <button class="send-btn" onclick="askAI()">Gönder</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="sec-lgs" class="tab-section">
+      <div class="lgs-countdown-card">
+        <div class="lgs-title">🔥 LGS HEDEF SINAV GERİ SAYIMI 🔥</div>
+        <div class="neon-timer">
+          <div class="timer-box">
+            <div class="timer-num" id="lgs-days">00</div>
+            <div class="timer-label">GÜN</div>
+          </div>
+          <div class="timer-box">
+            <div class="timer-num" id="lgs-hours">00</div>
+            <div class="timer-label">SAAT</div>
+          </div>
+          <div class="timer-box">
+            <div class="timer-num" id="lgs-mins">00</div>
+            <div class="timer-label">DK</div>
+          </div>
+          <div class="timer-box">
+            <div class="timer-num" id="lgs-secs">00</div>
+            <div class="timer-label">SN</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="border-color: rgba(244, 63, 94, 0.3);">
+        <div class="card-title" style="color:var(--primary);">🎯 LGS HAZIRLIK REHBERİ</div>
+        <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.6; margin-bottom:10px;">
+          LGS sürecinde düzenli soru çözümü ve konu tekrarları hedeflerinize ulaşmanın en kestirme yoludur.
+        </p>
+        <ul style="font-size:0.8rem; color:#fff; line-height:1.8; padding-left:18px;">
+          <li>Her gün en az 1 Pomodoro Mantık-Muhakeme sorusu çöz.</li>
+          <li>Yanlış yaptığın soruları AI Koçu'na sor.</li>
+          <li>Haftalık deneme analizlerini aksatma.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="sec-pomo" class="tab-section">
+      <div class="card">
+        <div class="card-title" style="color:var(--emerald);">⏱️ POMODORO DERS SAYAÇI</div>
+        
+        <div style="display:flex; gap:8px; justify-content:center; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
+          <label style="font-size:0.8rem; color:var(--text-muted); font-weight:700;">Süre (Dk):</label>
+          <input type="number" id="pomo-custom-mins" value="25" min="1" max="180" style="width:70px; padding:6px 10px; border-radius:10px; border:1px solid var(--card-border); background:rgba(255,255,255,0.05); color:#fff; text-align:center; font-weight:800;" onchange="setCustomPomodoroTime()">
+          <button onclick="setQuickPomoTime(15)" class="chip-btn" style="padding:4px 8px; font-size:0.75rem;">15 dk</button>
+          <button onclick="setQuickPomoTime(25)" class="chip-btn" style="padding:4px 8px; font-size:0.75rem;">25 dk</button>
+          <button onclick="setQuickPomoTime(45)" class="chip-btn" style="padding:4px 8px; font-size:0.75rem;">45 dk</button>
+          <button onclick="setQuickPomoTime(60)" class="chip-btn" style="padding:4px 8px; font-size:0.75rem;">60 dk</button>
+        </div>
+
+        <div class="pomo-display">
+          <div class="pomo-status" id="pomo-mode-text">📚 ODAKLANMA ZAMANI (DERS)</div>
+          <div class="pomo-time" id="pomo-timer-display">25:00</div>
+        </div>
+
+        <div class="pomo-controls">
+          <button class="pomo-btn pomo-btn-start" onclick="startPomodoro()">Başlat ▶</button>
+          <button class="pomo-btn pomo-btn-pause" onclick="pausePomodoro()">Duraklat ⏸</button>
+          <button class="pomo-btn pomo-btn-reset" onclick="resetPomodoro()">Sıfırla 🔄</button>
+        </div>
+
+        <div class="pomo-badge-box" style="display:flex; justify-content:space-around; align-items:center; gap:10px;">
+          <div>
+            <span style="font-size:0.78rem; color:var(--text-muted); display:block;">Tamamlanan Pomodoro</span>
+            <span id="pomo-count-today" style="font-size:1.2rem; font-weight:900; color:var(--emerald);">0</span> 🍅
+          </div>
+          <div style="width:1px; height:30px; background:var(--card-border);"></div>
+          <div>
+            <span style="font-size:0.78rem; color:var(--text-muted); display:block;">Toplam Çalışma Süresi</span>
+            <span id="pomo-minutes-today" style="font-size:1.2rem; font-weight:900; color:#38bdf8;">0</span> <span style="font-size:0.8rem; font-weight:700; color:#38bdf8;">Dk</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sec-news" class="tab-section">
+      <div class="card">
+        <div class="card-title">📢 DUYURU VE HABERLER</div>
+        <div id="news-list-container"></div>
+      </div>
+    </section>
+
+    <section id="sec-about" class="tab-section">
+      <div class="wa-banner">
+        <div style="font-size:0.95rem; font-weight:900; color:#fff;">📱 İMAN POWER ANA UYGULAMA</div>
+        <p style="font-size:0.78rem; color:#e2e8f0; margin-top:6px; line-height:1.4;">
+          Ana uygulamamıza erişmek, özel özelliklerden faydalanmak ve indirmek için kurucumuz ile WhatsApp üzerinden doğrudan iletişime geçebilirsiniz!
+        </p>
+        <a href="https://wa.me/" target="_blank" class="wa-btn">💬 WhatsApp'tan Bize Yazın</a>
+      </div>
+
+      <div class="card" style="border-color: rgba(139, 92, 246, 0.4);">
+        <div class="card-title" style="color: var(--ai-purple);">⚡ HAKKIMIZDA</div>
+        <p style="font-size:0.85rem; color: var(--text-muted); line-height:1.6; margin-bottom:12px;">
+          <strong>İman Power</strong>, Kurucumuz <strong>Berat Cihad Yeten</strong> liderliğinde yenilikçi yapay zeka teknolojileriyle eğitimi, ders çalışma süreçlerini ve spor dinamiklerini ultra hızlı hale getiren dijital platformdur.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⚽ İMAN POWER FC</div>
+        <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.6; margin-bottom:10px;">
+          İman Power FC, yaklaşık 1 yıl önce kurulmuş, tamamı 2013 doğumlu 13 yaşındaki genç oyunculardan oluşan bir futbol takımıdır. Sahada son düdüğe kadar mücadele, arkadaşlık ve gelişimi hedefler.
+        </p>
+        <div style="font-size:0.78rem; color:#fff; line-height:1.8;">
+          <strong>👑 Kurucu:</strong> Berat Cihad Yeten<br>
+          <strong>📋 Yönetim & Organizasyon:</strong> Reşit Öztoprak, Mustafa Aslan
+        </div>
+      </div>
+
+      <div class="card" style="text-align:center;">
+        <div style="font-size:1.1rem; font-weight:900; color:#fff; margin-bottom:4px;">İman Power v9.0</div>
+        <div style="font-size:0.75rem; color:var(--emerald);">Mistral Pixtral Engine & Realtime Stream</div>
+      </div>
+    </section>
+
+    <section id="sec-admin" class="tab-section">
+      <div class="card" style="border-color:var(--amber);">
+        <div class="card-title" style="color:var(--amber);">👑 YÖNETİCİ & ADMIN PANELİ</div>
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:14px;">Platform İçerik ve LGS Sayaç Yönetimi</p>
+
+        <div style="border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px; margin-bottom:14px;">
+          <h4 style="color:#fff; font-size:0.85rem; margin-bottom:8px;">🎯 LGS Sınav Tarihini Değiştir</h4>
+          <div class="admin-form-group">
+            <label class="admin-label">Hedef Tarih ve Saat</label>
+            <input type="datetime-local" id="admin-lgs-date" class="admin-input">
+          </div>
+          <button class="admin-btn-action" style="background:linear-gradient(135deg, var(--primary), #be123c);" onclick="saveAdminLgsDate()">⏱️ Sayaç Tarihini Güncelle</button>
+        </div>
+
+        <div style="border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px; margin-bottom:14px;">
+          <h4 style="color:#fff; font-size:0.85rem; margin-bottom:8px;">👥 Yeni Admin Yetkisi Ver</h4>
+          <div class="admin-form-group">
+            <label class="admin-label">Admin Yapılacak E-posta veya Kullanıcı ID</label>
+            <input type="text" id="admin-new-user" class="admin-input" placeholder="Örn: admin2@imanpower.com">
+          </div>
+          <button class="admin-btn-action" style="background:linear-gradient(135deg, var(--emerald), #047857);" onclick="addNewAdminRole()">👑 Yetki Ver ve Onayla</button>
+        </div>
+
+        <div style="border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px; margin-bottom:14px;">
+          <h4 style="color:#fff; font-size:0.85rem; margin-bottom:8px;">📢 Yeni Duyuru Yayınla</h4>
+          
+          <div class="admin-form-group">
+            <label class="admin-label">Duyuru / Haber Başlığı</label>
+            <input type="text" id="admin-news-title" class="admin-input" placeholder="Örn: LGS Deneme Sınavı Takvimi Açıklandı!">
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-label">Etiket / Kategori</label>
+            <input type="text" id="admin-news-tag" class="admin-input" placeholder="Örn: 📚 DERS DUYURUSU">
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-label">Görsel Ekle (Opsiyonel Resim Dosyası Seçin)</label>
+            <input type="file" id="admin-news-image-file" class="admin-input" accept="image/*">
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-label">İçerik Detayı</label>
+            <textarea id="admin-news-body" class="admin-textarea" placeholder="Duyuru detaylarını yazınız..."></textarea>
+          </div>
+
+          <button class="admin-btn-action" onclick="publishAdminNews()">🚀 Duyuruyu Yayınla</button>
+        </div>
+
+        <div>
+          <h4 style="color:#fff; font-size:0.85rem; margin-bottom:8px;">🗑️ Yayınlanmış Duyuruları Yönet & Tek Tek Sil</h4>
+          <p style="font-size:0.72rem; color:var(--text-muted); margin-bottom:10px;">Sistemde kayıtlı tüm duyurular aşağıda listelenmiştir.</p>
+          <div id="admin-news-list" style="display:flex; flex-direction:column; gap:8px; max-height:250px; overflow-y:auto; padding-right:4px;"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav>
+    <button class="nav-btn active" onclick="switchTab('ai', this)">
+      <span class="nav-icon">🤖</span>
+      <span>Zeka AI</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab('lgs', this)">
+      <span class="nav-icon">🎯</span>
+      <span>LGS Sayaç</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab('pomo', this)">
+      <span class="nav-icon">⏱️</span>
+      <span>Pomodoro</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab('news', this)">
+      <span class="nav-icon">📢</span>
+      <span>Duyuru</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab('about', this)">
+      <span class="nav-icon">ℹ️</span>
+      <span>Biz Kimiz</span>
+    </button>
+  </nav>
+
+  <div id="admin-auth-modal" class="modal">
+    <div class="modal-card">
+      <div class="modal-title" style="color:var(--amber);">🔒 ADMIN GİRİŞİ</div>
+      <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:14px;">Yönetim Paneli Güvenlik Şifresi</p>
+      
+      <input type="password" id="admin-pass-input" placeholder="Admin Şifresi" class="modal-input">
+      
+      <button class="modal-btn" style="background:var(--amber);" onclick="verifyAdminPassword()">Giriş Yap</button>
+      <button class="modal-btn sec" onclick="closeAdminModal()">İptal</button>
+    </div>
+  </div>
+
+  <div id="auth-modal" class="modal">
+    <div class="modal-card">
+      <div class="modal-title" style="color:var(--primary);">İMAN POWER</div>
+      <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:14px;">AI Ders & Eğitim Portalına Giriş Yapın</p>
+      
+      <input type="text" id="auth-name" placeholder="Adınız Soyadınız" class="modal-input">
+      <input type="email" id="auth-email" placeholder="E-posta Adresiniz" class="modal-input">
+      <input type="password" id="auth-pass" placeholder="Şifreniz" class="modal-input">
+      
+      <button class="modal-btn" onclick="handleAuth('login')">Giriş Yap</button>
+      <button class="modal-btn sec" onclick="handleAuth('register')">Yeni Kayıt Ol</button>
+    </div>
+  </div>
+
+  <div id="profile-modal" class="modal">
+    <div class="modal-card">
+      <div class="modal-title">👤 Profil Bilgileri</div>
+      <div style="margin-bottom:14px;">
+        <input type="text" id="edit-display-name" class="modal-input" placeholder="Adınız Soyadınız">
+      </div>
+      <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">
+        Bugün Tamamlanan Pomodoro: <strong id="profile-pomo-count" style="color:var(--emerald);">0</strong> 🍅
+      </div>
+      <button class="modal-btn" onclick="saveProfileName()">İsmi Güncelle</button>
+      <button class="modal-btn sec" style="color:#f43f5e; border-color:rgba(244,63,94,0.3);" onclick="logoutUser()">Çıkış Yap</button>
+      <button class="modal-btn sec" onclick="closeProfileModal()">Kapat</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCQsz76a4QtcwCT_GoBCq4SYa4Mi08tazE",
+    authDomain: "sinifpro-f1f07.firebaseapp.com",
+    projectId: "sinifpro-f1f07",
+    storageBucket: "sinifpro-f1f07.firebasestorage.app",
+    messagingSenderId: "934477509041",
+    appId: "1:934477509041:web:29b8370b7c9f1618100d90",
+    databaseURL: "https://sinifpro-f1f07-default-rtdb.firebaseio.com"
+  };
+
+  const MISTRAL_API_KEY = "9QIIDBQrIHBvTSpSjYSAphbCyOrann5U";
+  const MISTRAL_MODEL = "pixtral-12b-latest";
+  const ADMIN_SECRET_PASSWORD = "IPFC2026!AdminVIP#34";
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.database();
+
+  let currentUser = null;
+  let activeChatId = null;
+  let allUserChats = {};
+  let isAdminAuthenticated = false;
+
+  let pomoWorkMinutes = 25;
+  let pomoSecondsLeft = 25 * 60;
+  let pomoTimer = null;
+  let isPomoRunning = false;
+  let isPomoBreak = false;
+  let pomoCountToday = 0;
+  let pomoMinutesToday = 0;
+
+  let lgsTargetTimestamp = new Date("2027-06-06T09:30:00").getTime();
+
+  // Speech API Nesneleri
+  let recognition = null;
+  let isRecording = false;
+  let currentSpeakingBtn = null;
+
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      currentUser = user;
+      document.getElementById('auth-modal').classList.remove('active');
+      const displayName = user.displayName || user.email.split('@')[0];
+      updateUserHeaderUI(displayName);
+      loadUserChatsList();
+      listenLiveNews();
+      listenLgsDate();
+      loadPomodoroStats();
+    } else {
+      currentUser = null;
+      document.getElementById('auth-modal').classList.add('active');
+    }
+  });
+
+  function listenLgsDate() {
+    db.ref('config/lgsTargetDate').on('value', (snapshot) => {
+      const val = snapshot.val();
+      if (val) {
+        lgsTargetTimestamp = new Date(val).getTime();
+      }
+      updateLGSCountdown();
+    });
+  }
+
+  function updateLGSCountdown() {
+    const now = new Date().getTime();
+    const diff = lgsTargetTimestamp - now;
+
+    if (diff <= 0) {
+      document.getElementById("lgs-days").innerText = "00";
+      document.getElementById("lgs-hours").innerText = "00";
+      document.getElementById("lgs-mins").innerText = "00";
+      document.getElementById("lgs-secs").innerText = "00";
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById("lgs-days").innerText = String(days).padStart(2, '0');
+    document.getElementById("lgs-hours").innerText = String(hours).padStart(2, '0');
+    document.getElementById("lgs-mins").innerText = String(mins).padStart(2, '0');
+    document.getElementById("lgs-secs").innerText = String(secs).padStart(2, '0');
+  }
+  setInterval(updateLGSCountdown, 1000);
+
+  function setCustomPomodoroTime() {
+    if (isPomoRunning) return;
+    const inputEl = document.getElementById("pomo-custom-mins");
+    const mins = parseInt(inputEl.value) || 25;
+    pomoWorkMinutes = Math.max(1, Math.min(180, mins));
+    inputEl.value = pomoWorkMinutes;
+    if (!isPomoBreak) {
+      pomoSecondsLeft = pomoWorkMinutes * 60;
+      updatePomoDisplay();
+    }
+  }
+
+  function setQuickPomoTime(mins) {
+    if (isPomoRunning) return;
+    document.getElementById("pomo-custom-mins").value = mins;
+    setCustomPomodoroTime();
+  }
+
+  function updatePomoDisplay() {
+    const m = Math.floor(pomoSecondsLeft / 60);
+    const s = pomoSecondsLeft % 60;
+    document.getElementById("pomo-timer-display").innerText = 
+      `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+
+  function startPomodoro() {
+    if (isPomoRunning) return;
+    isPomoRunning = true;
+    pomoTimer = setInterval(() => {
+      pomoSecondsLeft--;
+      updatePomoDisplay();
+      if (pomoSecondsLeft <= 0) {
+        clearInterval(pomoTimer);
+        isPomoRunning = false;
+        if (!isPomoBreak) {
+          alert(`🎉 Harika! ${pomoWorkMinutes} Dakikalık Ders Pomodoro'su Tamamlandı. Şimdi 5 Dakika Mola Zamanı!`);
+          incrementPomodoroCount(pomoWorkMinutes);
+          isPomoBreak = true;
+          pomoSecondsLeft = 5 * 60;
+          document.getElementById("pomo-mode-text").innerText = "☕ MOLA ZAMANI (5 DK)";
+        } else {
+          alert("🔔 Mola süreniz bitti! Yeni ders seansı için hazır mısınız?");
+          isPomoBreak = false;
+          pomoSecondsLeft = pomoWorkMinutes * 60;
+          document.getElementById("pomo-mode-text").innerText = "📚 ODAKLANMA ZAMANI (DERS)";
+        }
+        updatePomoDisplay();
+      }
+    }, 1000);
+  }
+
+  function pausePomodoro() {
+    clearInterval(pomoTimer);
+    isPomoRunning = false;
+  }
+
+  function resetPomodoro() {
+    clearInterval(pomoTimer);
+    isPomoRunning = false;
+    isPomoBreak = false;
+    pomoSecondsLeft = pomoWorkMinutes * 60;
+    document.getElementById("pomo-mode-text").innerText = "📚 ODAKLANMA ZAMANI (DERS)";
+    updatePomoDisplay();
+  }
+
+  function getTodayKey() {
+    const d = new Date();
+    return `${d.getFullYear()}_${d.getMonth() + 1}_${d.getDate()}`;
+  }
+
+  async function loadPomodoroStats() {
+    if (!currentUser) return;
+    const todayKey = getTodayKey();
+    db.ref(`users/${currentUser.uid}/pomodoros/${todayKey}`).on('value', (snap) => {
+      const val = snap.val();
+      if (typeof val === 'object' && val !== null) {
+        pomoCountToday = val.count || 0;
+        pomoMinutesToday = val.minutes || 0;
+      } else if (typeof val === 'number') {
+        pomoCountToday = val;
+        pomoMinutesToday = val * 25;
+      } else {
+        pomoCountToday = 0;
+        pomoMinutesToday = 0;
+      }
+      document.getElementById('pomo-count-today').innerText = pomoCountToday;
+      document.getElementById('pomo-minutes-today').innerText = pomoMinutesToday;
+      if (document.getElementById('profile-pomo-count')) {
+        document.getElementById('profile-pomo-count').innerText = pomoCountToday;
+      }
+    });
+  }
+
+  async function incrementPomodoroCount(workedMins) {
+    if (!currentUser) return;
+    const todayKey = getTodayKey();
+    const newCount = pomoCountToday + 1;
+    const newMins = pomoMinutesToday + workedMins;
+    await db.ref(`users/${currentUser.uid}/pomodoros/${todayKey}`).set({
+      count: newCount,
+      minutes: newMins
+    });
+  }
+
+  function updateUserHeaderUI(name) {
+    document.getElementById('hdr-username').innerText = name;
+    document.getElementById('hdr-avatar').innerText = name.charAt(0).toUpperCase();
+    document.getElementById('edit-display-name').value = name;
+  }
+
+  async function handleAuth(type) {
+    const email = document.getElementById('auth-email').value.trim();
+    const pass = document.getElementById('auth-pass').value.trim();
+    const name = document.getElementById('auth-name').value.trim();
+
+    if (!email || !pass) return alert("Lütfen e-posta ve şifrenizi girin.");
+
+    try {
+      if (type === 'register') {
+        if (!name) return alert("Lütfen adınızı giriniz.");
+        const res = await auth.createUserWithEmailAndPassword(email, pass);
+        await res.user.updateProfile({ displayName: name });
+        updateUserHeaderUI(name);
+      } else {
+        await auth.signInWithEmailAndPassword(email, pass);
+      }
+    } catch (err) { alert("Hata: " + err.message); }
+  }
+
+  function openAdminModal() {
+    if (isAdminAuthenticated) {
+      switchTab('admin', document.querySelector('.hdr-btn.admin-btn'));
+    } else {
+      document.getElementById('admin-auth-modal').classList.add('active');
+    }
+  }
+
+  function closeAdminModal() {
+    document.getElementById('admin-auth-modal').classList.remove('active');
+  }
+
+  function verifyAdminPassword() {
+    const pass = document.getElementById('admin-pass-input').value.trim();
+    if (pass === ADMIN_SECRET_PASSWORD) {
+      isAdminAuthenticated = true;
+      closeAdminModal();
+      document.getElementById('admin-pass-input').value = '';
+      switchTab('admin', document.querySelector('.hdr-btn.admin-btn'));
+      listenLiveNews();
+      alert("✅ Admin Girişi Başarılı! Yönetici Paneli Aktif.");
+    } else {
+      alert("❌ Hatalı Admin Şifresi!");
+    }
+  }
+
+  async function saveAdminLgsDate() {
+    const dateVal = document.getElementById('admin-lgs-date').value;
+    if (!dateVal) return alert("Lütfen geçerli bir tarih seçiniz.");
+
+    await db.ref('config/lgsTargetDate').set(dateVal);
+    alert("🎉 LGS Sınav tarihi tüm kullanıcılar için güncellendi!");
+  }
+
+  async function addNewAdminRole() {
+    const userInput = document.getElementById('admin-new-user').value.trim();
+    if (!userInput) return alert("Lütfen kullanıcı e-posta veya ID girin.");
+
+    const key = userInput.replace(/[\.\#\$\[\]]/g, "_");
+    await db.ref(`admins/${key}`).set({
+      grantedBy: currentUser?.email || 'System',
+      timestamp: Date.now()
+    });
+
+    document.getElementById('admin-new-user').value = '';
+    alert("✅ Yeni Admin başarıyla eklendi!");
+  }
+
+  async function publishAdminNews() {
+    const title = document.getElementById('admin-news-title').value.trim();
+    const tag = document.getElementById('admin-news-tag').value.trim() || '📢 DUYURU';
+    const body = document.getElementById('admin-news-body').value.trim();
+    const fileInput = document.getElementById('admin-news-image-file');
+
+    if (!title || !body) return alert("Lütfen başlık ve içeriği doldurun.");
+
+    let imageDataUrl = "";
+    if (fileInput && fileInput.files && fileInput.files[0]) {
+      const file = fileInput.files[0];
+      if (file.size > 3 * 1024 * 1024) {
+        return alert("Görsel boyutu çok büyük! Lütfen 3MB'dan küçük bir resim seçin.");
+      }
+      try {
+        imageDataUrl = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = e => resolve(e.target.result);
+          reader.onerror = e => reject(e);
+          reader.readAsDataURL(file);
+        });
+      } catch(e) {
+        console.error("Resim okuma hatası:", e);
+      }
+    }
+
+    const newNewsRef = db.ref('news').push();
+    await newNewsRef.set({
+      title: title,
+      tag: tag,
+      body: body,
+      image: imageDataUrl || "",
+      timestamp: Date.now()
+    });
+
+    document.getElementById('admin-news-title').value = '';
+    document.getElementById('admin-news-tag').value = '';
+    document.getElementById('admin-news-body').value = '';
+    if (fileInput) fileInput.value = '';
+
+    alert("🎉 Duyuru başarıyla yayınlandı!");
+  }
+
+  function deleteNewsItem(id) {
+    if (!isAdminAuthenticated) return alert("Bu işlem için Admin yetkisi gereklidir.");
+    if (confirm("Bu duyuruyu silmek istediğinize emin misiniz?")) {
+      db.ref(`news/${id}`).remove();
+    }
+  }
+
+  function listenLiveNews() {
+    db.ref('news').on('value', (snapshot) => {
+      const newsList = document.getElementById('news-list-container');
+      const adminNewsList = document.getElementById('admin-news-list');
+      
+      newsList.innerHTML = '';
+      if (adminNewsList) adminNewsList.innerHTML = '';
+      
+      const data = snapshot.val();
+
+      if (!data) {
+        newsList.innerHTML = `
+          <div class="news-item">
+            <div class="news-tag">⚡ SISTEM</div>
+            <div class="news-head">Ultra Hızlı Yapay Zeka Desteği Aktif</div>
+            <div class="news-body">Sorularınızı ve ders konularınızı doğrudan yazarak anında yanıt alabilirsiniz.</div>
+          </div>`;
+        if (adminNewsList) {
+          adminNewsList.innerHTML = '<div style="font-size:0.75rem; color:var(--text-muted); text-align:center; padding:10px;">Henüz yayınlanmış bir duyuru yok.</div>';
+        }
+        return;
+      }
+
+      Object.keys(data).reverse().forEach(id => {
+        const item = data[id];
+        const dateStr = new Date(item.timestamp || Date.now()).toLocaleDateString('tr-TR', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
+        const delBtnHTML = isAdminAuthenticated ? `<button class="news-del-btn" onclick="deleteNewsItem('${id}')">Sil 🗑️</button>` : '';
+        const imgHTML = item.image ? `<img src="${item.image}" class="news-img" alt="Duyuru Görseli">` : '';
+
+        const div = document.createElement('div');
+        div.className = 'news-item';
+        div.innerHTML = `
+          ${delBtnHTML}
+          <div class="news-tag">${escapeHTML(item.tag)}</div>
+          <div class="news-head">${escapeHTML(item.title)}</div>
+          ${imgHTML}
+          <div class="news-body">${escapeHTML(item.body)}</div>
+          <div class="news-date">${dateStr}</div>
+        `;
+        newsList.appendChild(div);
+
+        if (adminNewsList) {
+          const adminItem = document.createElement('div');
+          adminItem.style.cssText = 'background:rgba(255,255,255,0.04); border:1px solid var(--card-border); border-radius:12px; padding:10px 12px; display:flex; justify-content:space-between; align-items:center; gap:8px;';
+          adminItem.innerHTML = `
+            <div style="overflow:hidden; flex:1;">
+              <div style="font-size:0.8rem; font-weight:800; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHTML(item.title)}</div>
+              <div style="font-size:0.68rem; color:var(--text-muted); font-weight:600;">${escapeHTML(item.tag)} • ${dateStr}</div>
+            </div>
+            <button onclick="deleteNewsItem('${id}')" style="background:rgba(244,63,94,0.2); color:var(--primary); border:1px solid rgba(244,63,94,0.4); padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:800; cursor:pointer; flex-shrink:0;">Sil 🗑️</button>
+          `;
+          adminNewsList.appendChild(adminItem);
+        }
+      });
+    });
+  }
+
+  function openProfileModal() { document.getElementById('profile-modal').classList.add('active'); }
+  function closeProfileModal() { document.getElementById('profile-modal').classList.remove('active'); }
+
+  async function saveProfileName() {
+    const newName = document.getElementById('edit-display-name').value.trim();
+    if (!newName || !currentUser) return;
+    try {
+      await currentUser.updateProfile({ displayName: newName });
+      updateUserHeaderUI(newName);
+      closeProfileModal();
+      alert("Profil isminiz güncellendi!");
+    } catch (e) { alert("Hata: " + e.message); }
+  }
+
+  function logoutUser() {
+    if (confirm("Çıkış yapmak istediğinize emin misiniz?")) {
+      closeProfileModal();
+      auth.signOut();
+    }
+  }
+
+  function toggleDrawer(open) {
+    document.getElementById('history-drawer').classList.toggle('active', open);
+    document.getElementById('drawer-overlay').classList.toggle('active', open);
+  }
+
+  function loadUserChatsList() {
+    if (!currentUser) return;
+    db.ref(`user_chats/${currentUser.uid}`).on('value', (snapshot) => {
+      allUserChats = snapshot.val() || {};
+      renderChatHistoryItems(allUserChats);
+
+      const chatKeys = Object.keys(allUserChats);
+      if (chatKeys.length === 0) {
+        createNewChat();
+      } else if (!activeChatId || !allUserChats[activeChatId]) {
+        switchChat(chatKeys[chatKeys.length - 1]);
+      }
+    });
+  }
+
+  function renderChatHistoryItems(chatsObj) {
+    const container = document.getElementById('history-list-container');
+    container.innerHTML = '';
+    const keys = Object.keys(chatsObj).reverse();
+    keys.forEach(id => {
+      const chat = chatsObj[id];
+      const item = document.createElement('div');
+      item.className = `history-item ${id === activeChatId ? 'active' : ''}`;
+      const dateStr = chat.lastUpdated ? new Date(chat.lastUpdated).toLocaleDateString('tr-TR', { hour: '2-digit', minute: '2-digit' }) : '';
+      item.innerHTML = `
+        <div class="history-info" onclick="switchChat('${id}')">
+          <div class="history-item-title">${chat.title || 'Yeni Sohbet'}</div>
+          <div class="history-item-date">${dateStr}</div>
+        </div>
+        <span class="delete-chat-btn" onclick="deleteChat('${id}', event)">🗑️</span>
+      `;
+      container.appendChild(item);
+    });
+  }
+
+  function filterChatHistory() {
+    const query = document.getElementById('chat-search-input').value.toLowerCase();
+    const filtered = {};
+    Object.keys(allUserChats).forEach(id => {
+      if ((allUserChats[id].title || '').toLowerCase().includes(query)) {
+        filtered[id] = allUserChats[id];
+      }
+    });
+    renderChatHistoryItems(filtered);
+  }
+
+  function createNewChat() {
+    activeChatId = 'chat_' + Date.now();
+    toggleDrawer(false);
+    document.getElementById('ai-chat-box').innerHTML = '';
+    const name = currentUser?.displayName || 'Öğrencimiz';
+    renderAIMessage(`Merhaba **${name}**! Nasılsın? Ben senin akıllı ders ve sohbet asistanınım. 
+
+📷 **Görsel Soru Çözümü:** İstersen soru fotoğraflarını 📷 butonuna basarak yükleyebilirsin; anında okuyup adım adım çözerim.
+🎙️ **Sesle Soru Sorma:** Konuşarak soru sormak için 🎙️ butonuna basabilirsin.
+⚽ **İman Power FC:** Takımımız ve oyuncu kadromuz hakkında merak ettiğin her şeyi sorabilirsin!
+
+Derslerinde ve takıldığın her konuda yardımcı olmak için buradayım. Bugün ne çalışıyoruz? 📚⚡`);
+  }
+
+  function switchChat(chatId) {
+    activeChatId = chatId;
+    toggleDrawer(false);
+    db.ref(`chat_messages/${currentUser.uid}/${chatId}`).once('value', (snapshot) => {
+      const chatBox = document.getElementById('ai-chat-box');
+      chatBox.innerHTML = '';
+      const msgs = snapshot.val();
+      if (msgs) {
+        Object.values(msgs).forEach(m => {
+          if (m.role === 'user') renderUserMessage(m.text);
+          else renderAIMessage(m.text);
+        });
+      } else { createNewChat(); }
+    });
+  }
+
+  function deleteChat(chatId, e) {
+    e.stopPropagation();
+    if (confirm("Bu sohbeti silmek istediğinize emin misiniz?")) {
+      db.ref(`user_chats/${currentUser.uid}/${chatId}`).remove();
+      db.ref(`chat_messages/${currentUser.uid}/${chatId}`).remove();
+      if (activeChatId === chatId) activeChatId = null;
+    }
+  }
+
+  function renderUserMessage(text) {
+    const chatBox = document.getElementById('ai-chat-box');
+    const group = document.createElement('div');
+    group.className = 'msg-group user';
+    group.innerHTML = `<div class="user-msg"><div>${escapeHTML(text || '')}</div></div>`;
+    chatBox.appendChild(group);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  function parseMarkdown(text) {
+    if (!text) return '';
+
+    // Ham LaTeX işaretlerini ve gereksiz simgeleri temizle
+    let cleanText = text
+      .replace(/\\text\{([^}]+)\}/g, '$1')
+      .replace(/\\lfloor/g, '⌊')
+      .replace(/\\rfloor/g, '⌋')
+      .replace(/\\left/g, '')
+      .replace(/\\right/g, '');
+
+    let lines = cleanText.split('\n');
+    let inTable = false;
+    let tableHTML = '';
+    let resultLines = [];
+
+    lines.forEach(line => {
+      const trimmed = line.trim();
+      if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
+        if (trimmed.includes('---')) return;
+
+        const cells = trimmed.split('|').slice(1, -1).map(c => c.trim());
+        if (!inTable) {
+          inTable = true;
+          tableHTML = '<table><thead><tr>';
+          cells.forEach(c => tableHTML += `<th>${c}</th>`);
+          tableHTML += '</tr></thead><tbody>';
+        } else {
+          tableHTML += '<tr>';
+          cells.forEach(c => tableHTML += `<td>${c}</td>`);
+          tableHTML += '</tr>';
+        }
+      } else {
+        if (inTable) {
+          tableHTML += '</tbody></table>';
+          resultLines.push(tableHTML);
+          inTable = false;
+          tableHTML = '';
+        }
+        resultLines.push(line);
+      }
+    });
+
+    if (inTable) {
+      tableHTML += '</tbody></table>';
+      resultLines.push(tableHTML);
+    }
+
+    let formatted = resultLines.join('\n');
+    formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    formatted = formatted.replace(/\n/g, '<br>');
+
+    return formatted;
+  }
+
+  function renderAIMessage(text) {
+    const chatBox = document.getElementById('ai-chat-box');
+    const group = document.createElement('div');
+    group.className = 'msg-group ai';
+    const formattedText = parseMarkdown(text);
+
+    group.innerHTML = `
+      <div class="ai-msg">
+        <div class="ai-msg-header">
+          <div class="ai-title">⚡ ZEKA AI</div>
+        </div>
+        <div class="ai-msg-content">${formattedText}</div>
+        <div class="msg-toolbar">
+          <button class="msg-tool-btn tts-btn" onclick="toggleTTS(this)">🔊 Dinle</button>
+          <button class="msg-tool-btn" onclick="copyMsgText(this)">📋 Kopyala</button>
+        </div>
+      </div>
+    `;
+
+    chatBox.appendChild(group);
+
+    // KaTeX Render Tetikleme
+    if (window.renderMathInElement) {
+      try {
+        renderMathInElement(group, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ],
+          throwOnError: false
+        });
+      } catch(e) {}
+    }
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  function escapeHTML(str) {
+    if (!str) return '';
+    return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+  }
+
+  function copyMsgText(btn) {
+    const card = btn.closest('.ai-msg');
+    const text = card.querySelector('.ai-msg-content').innerText;
+    navigator.clipboard.writeText(text);
+    btn.innerText = '✅ Kopyalandı';
+    setTimeout(() => btn.innerText = '📋 Kopyala', 2000);
+  }
+
+  // SESLİ YANIT DİNLEME VE DURDURMA (Text-to-Speech)
+  function toggleTTS(btn) {
+    if (!('speechSynthesis' in window)) {
+      return alert("Üzgünüm, tarayıcınız sesli okuma özelliğini desteklemiyor.");
+    }
+
+    if (window.speechSynthesis.speaking && currentSpeakingBtn === btn) {
+      window.speechSynthesis.cancel();
+      btn.innerText = '🔊 Dinle';
+      btn.classList.remove('tts-active');
+      currentSpeakingBtn = null;
+      return;
+    }
+
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+      if (currentSpeakingBtn) {
+        currentSpeakingBtn.innerText = '🔊 Dinle';
+        currentSpeakingBtn.classList.remove('tts-active');
+      }
+    }
+
+    const card = btn.closest('.ai-msg');
+    const rawText = card.querySelector('.ai-msg-content').innerText;
+
+    if (!rawText.trim()) return;
+
+    const utterance = new SpeechSynthesisUtterance(rawText);
+    utterance.lang = 'tr-TR';
+    utterance.rate = 1.0;
+
+    utterance.onstart = () => {
+      btn.innerText = '⏸️ Durdur';
+      btn.classList.add('tts-active');
+      currentSpeakingBtn = btn;
+    };
+
+    utterance.onend = utterance.onerror = () => {
+      btn.innerText = '🔊 Dinle';
+      btn.classList.remove('tts-active');
+      currentSpeakingBtn = null;
+    };
+
+    window.speechSynthesis.speak(utterance);
+  }
+
+  // SESLE MESAJ GÖNDERME (Speech-to-Text - Donmayan Optimize Sürüm)
+  function toggleSpeechToText() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      return alert("Üzgünüm, tarayıcınız ses tanıma özelliğini desteklemiyor. Lütfen Chrome veya Edge kullanın.");
+    }
+
+    const micBtn = document.getElementById('mic-btn');
+    const inputEl = document.getElementById('ai-input');
+
+    if (isRecording && recognition) {
+      recognition.stop();
+      return;
+    }
+
+    recognition = new SpeechRecognition();
+    recognition.lang = 'tr-TR';
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => {
+      isRecording = true;
+      micBtn.classList.add('mic-active');
+      inputEl.placeholder = "Dinleniyor... Konuşun...";
+    };
+
+    recognition.onresult = (e) => {
+      let transcript = '';
+      for (let i = e.resultIndex; i < e.results.length; ++i) {
+        transcript += e.results[i][0].transcript;
+      }
+      inputEl.value = transcript;
+    };
+
+    recognition.onerror = (e) => {
+      console.error("Ses tanıma hatası:", e.error);
+      if (e.error === 'not-allowed') {
+        alert("Mikrofon izni engellendi! Lütfen tarayıcı adres çubuğundaki kilit simgesinden mikrofona izin verin.");
+      }
+      stopRecordingUI();
+    };
+
+    recognition.onend = () => {
+      stopRecordingUI();
+      if (inputEl.value.trim().length > 0) {
+        setTimeout(() => {
+          askAI();
+        }, 300);
+      }
+    };
+
+    try {
+      recognition.start();
+    } catch (err) {
+      console.error("Mikrofon başlatma hatası:", err);
+      stopRecordingUI();
+    }
+
+    function stopRecordingUI() {
+      isRecording = false;
+      micBtn.classList.remove('mic-active');
+      inputEl.placeholder = "Soru sorun, konuşun veya resim ekleyin...";
+    }
+  }
+
+  function convertFileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
+
+  function handleImageSelect(input) {
+    const badge = document.getElementById('image-preview-badge');
+    if (input.files && input.files[0]) {
+      badge.innerText = `📷 Eklenen Görsel: ${input.files[0].name}`;
+      badge.style.display = 'block';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+
+  async function askAI() {
+    const inputEl = document.getElementById('ai-input');
+    const imageInput = document.getElementById('ai-image-input');
+    let prompt = inputEl.value.trim();
+
+    if ((!prompt && (!imageInput.files || !imageInput.files[0])) || !currentUser) return;
+    if (!activeChatId) activeChatId = 'chat_' + Date.now();
+
+    let imagePartBase64 = null;
+
+    if (imageInput.files && imageInput.files[0]) {
+      const file = imageInput.files[0];
+      try {
+        imagePartBase64 = await convertFileToBase64(file);
+      } catch (e) {
+        console.error("Görsel işleme hatası:", e);
+      }
+      imageInput.value = '';
+      document.getElementById('image-preview-badge').style.display = 'none';
+    }
+
+    inputEl.value = '';
+
+    const chatTitle = prompt ? (prompt.length > 25 ? prompt.substring(0, 25) + '...' : prompt) : 'Görsel Soru';
+    db.ref(`user_chats/${currentUser.uid}/${activeChatId}`).update({
+      title: chatTitle,
+      lastUpdated: Date.now()
+    });
+
+    const userDisplayText = prompt || "📷 [Resim Yüklendi]";
+    renderUserMessage(userDisplayText);
+    await db.ref(`chat_messages/${currentUser.uid}/${activeChatId}`).push({
+      role: 'user', text: userDisplayText, time: Date.now()
+    });
+
+    // BİLGİLİ, CANA YAKIN, KOD-KARMASA BASTIRILMIŞ VE 2026/2013 GÜNCEL SİSTEM TALİMATI
+    const systemPromptText = `Sen ${currentUser.displayName || 'Öğrencimiz'} ile konuşan samimi, içten, anlayışlı ve çok bilgili bir akıllı ders ve sohbet asistanısın.
+
+GÜNCEL TARİH VE YIL BİLGİSİ (ÇOK ÖNEMLİ):
+- Bulunduğumuz yıl 2026'dır.
+- İman Power FC futbol oyuncuları 2013 doğumludur (13 yaşındadır). Kendini 2024 veya eski yıllarda kalmış gibi düşünme! Yaş ve tarih hesaplamalarını 2026 yılına göre yap.
+
+İLETİŞİM VE İÇERİK TALİMATLARI:
+1. SAMİMİ VE CANA YAKIN OL: Kullanıcı "nasılsın", "merhaba", "ne haber" dediğinde içten, güler yüzlü bir arkadaş gibi karşılık ver, hal hatır sor ve moral ver.
+2. TEMİZ VE SADE MATEMATİK ANLATIMI: Asla \\text{}, \\lfloor, \\frac{} gibi ham LaTeX/kod simgeleri veya karmaşık işaretler KULLANMA! Matematiksel işlemleri herkesin kolayca okuyabileceği sade düz metin formatında yaz (Örn: 126 / 5 = 25, 5 cm²).
+3. GEREKSİZ KOD VE KARMAŞADAN KAÇIN: Yanıtlarında yazılımsal kodlar veya kafa karıştırıcı semboller kullanma. Cevapların net, anlaşılır ve dersi kolayca kavratan biçimde olsun.
+
+⚽ TAKIMIMIZ VE KADROMUZ (İMAN POWER FC BİLGİSİ):
+Kullanıcı takımımız, oyuncularımız, kurucumuz veya İman Power FC hakkında bilgi istediğinde şu detaylara tam hakim olarak cevap ver:
+- **Takım Hakkında:** İman Power FC, yaklaşık 1 yıl önce kurulmuş, tamamı 2013 doğumlu (13 yaşında) genç oyunculardan oluşan bir futbol takımıdır. En büyük hedefi birlikte hareket etmek, futbol sevgisini büyütmek, kendini geliştirmek ve sahada son düdüğe kadar mücadele etmektir.
+- **Kurucu:** Berat Cihad Yeten
+- **Yönetim ve Organizasyon Yardımcıları:** Reşit Öztoprak ve Mustafa Aslan
+- **Sloganlar & Takım Ruhu:** "Bir takım, bir aile, tek hedef!", "Sahada son düdüğe kadar mücadele!", "2013'lü olarak başladık, daha yolun başındayız!"
+- **Takım Kadrosu:**
+  * 🧤 **Kaleci:** Güney Atahan (Savunmanın arkasındaki son güven noktası).
+  * 🛡️ **Defans:** Umut Güzelyüz, Abdurrahman Özcan, Berat Cihad Yeten, Reşit Öztoprak (Rakip atakları durduran, oyunu geriden kuran güçlü dörtlü savunma).
+  * 🎯 **Orta Saha:** Ali Tuna, Mustafa Aslan (Oyun bağlantısını oluşturan, pas trafiğini yöneten orta saha).
+  * 🔥 **Forvet:** Ali Coşkun, Mustafa Değirmenci (Rakip savunmaya baskı yapan, fırsatları gole çeviren hücum hattı).
+- **İletişim / Ana Uygulama:** WhatsApp üzerinden kurulabilir.`;
+
+    const snapshot = await db.ref(`chat_messages/${currentUser.uid}/${activeChatId}`).once('value');
+    const historyData = snapshot.val() || {};
+    const allMsgs = Object.values(historyData);
+
+    const recentMsgs = allMsgs.slice(-20);
+
+    const messages = [
+      { role: "system", content: systemPromptText }
+    ];
+
+    recentMsgs.forEach((m, idx) => {
+      const isLast = idx === recentMsgs.length - 1;
+      const role = m.role === 'user' ? 'user' : 'assistant';
+
+      if (isLast && imagePartBase64) {
+        messages.push({
+          role: "user",
+          content: [
+            { type: "text", text: m.text || "Resimdeki soruyu çöz." },
+            { type: "image_url", image_url: { url: imagePartBase64 } }
+          ]
+        });
+      } else {
+        messages.push({
+          role: role,
+          content: m.text || ""
+        });
+      }
+    });
+
+    const chatBox = document.getElementById('ai-chat-box');
+    const streamGroup = document.createElement('div');
+    streamGroup.className = 'msg-group ai';
+    streamGroup.innerHTML = `
+      <div class="ai-msg">
+        <div class="ai-msg-header">
+          <div class="ai-title">⚡ ZEKA AI</div>
+        </div>
+        <div class="ai-msg-content" id="active-stream-target"><span style="color:var(--text-muted);">Yazıyor... 💭</span></div>
+        <div class="msg-toolbar">
+          <button class="msg-tool-btn tts-btn" onclick="toggleTTS(this)">🔊 Dinle</button>
+          <button class="msg-tool-btn" onclick="copyMsgText(this)">📋 Kopyala</button>
+        </div>
+      </div>
+    `;
+    chatBox.appendChild(streamGroup);
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    const streamContentEl = streamGroup.querySelector('#active-stream-target');
+
+    try {
+      const response = await fetch("https://api.mistral.ai/v1/chat/completions", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${MISTRAL_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: MISTRAL_MODEL,
+          messages: messages,
+          temperature: 0.7,
+          stream: true
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Servis Hatası: ${response.status}`);
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let fullText = "";
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (trimmed.startsWith("data: ")) {
+            const dataStr = trimmed.slice(6);
+            if (dataStr === "[DONE]") continue;
+            try {
+              const parsed = JSON.parse(dataStr);
+              const token = parsed.choices[0]?.delta?.content || "";
+              fullText += token;
+              streamContentEl.innerHTML = parseMarkdown(fullText);
+              
+              if (window.renderMathInElement) {
+                renderMathInElement(streamContentEl, {
+                  delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                  ],
+                  throwOnError: false
+                });
+              }
+
+              chatBox.scrollTop = chatBox.scrollHeight;
+            } catch (err) {}
+          }
+        }
+      }
+
+      if (buffer.trim().startsWith("data: ")) {
+        const dataStr = buffer.trim().slice(6);
+        if (dataStr !== "[DONE]") {
+          try {
+            const parsed = JSON.parse(dataStr);
+            fullText += parsed.choices[0]?.delta?.content || "";
+          } catch (e) {}
+        }
+      }
+
+      if (fullText) {
+        streamContentEl.innerHTML = parseMarkdown(fullText);
+        await db.ref(`chat_messages/${currentUser.uid}/${activeChatId}`).push({
+          role: 'model', text: fullText, time: Date.now()
+        });
+      }
+
+    } catch (e) {
+      console.error("Mistral Bağlantı Hatası:", e);
+      streamContentEl.innerHTML = `<span style="color:#f43f5e;">⚠️ Yanıt alınırken bir hata oluştu: ${escapeHTML(e.message)}</span>`;
+    }
+  }
+
+  function sendQuickPrompt(txt) {
+    document.getElementById('ai-input').value = txt;
+    askAI();
+  }
+
+  function switchTab(tabId, btnEl) {
+    document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+    const targetSec = document.getElementById(`sec-${tabId}`);
+    if (targetSec) targetSec.classList.add('active');
+    if (btnEl && btnEl.classList.contains('nav-btn')) btnEl.classList.add('active');
+  }
+</script>
+</body>
+</html>
