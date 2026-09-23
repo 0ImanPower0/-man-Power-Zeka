@@ -19,9 +19,9 @@
       --bg-dark: #030712;
       --card-bg: rgba(15, 23, 42, 0.82);
       --card-border: rgba(255, 255, 255, 0.1);
-      --primary: #f43f5e;
-      --primary-hover: #e11d48;
-      --primary-glow: rgba(244, 63, 94, 0.35);
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-glow: rgba(37, 99, 235, 0.35);
       --ai-purple: #8b5cf6;
       --ai-glow: rgba(139, 92, 246, 0.3);
       --emerald: #10b981;
@@ -40,7 +40,7 @@
       width: 100%; max-width: 500px; height: 100%;
       background: var(--bg-dark);
       background-image: 
-        radial-gradient(circle at 10% 10%, rgba(244, 63, 94, 0.15), transparent 380px),
+        radial-gradient(circle at 10% 10%, rgba(37, 99, 235, 0.12), transparent 380px),
         radial-gradient(circle at 90% 90%, rgba(139, 92, 246, 0.15), transparent 380px),
         radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05), transparent 450px);
       position: relative; display: flex; flex-direction: column;
@@ -60,7 +60,7 @@
 
     .brand-group { display: flex; align-items: center; gap: 10px; }
     .brand-logo { 
-      width: 36px; height: 36px; border-radius: 12px; background: linear-gradient(135deg, var(--primary), #9f1239); 
+      width: 36px; height: 36px; border-radius: 12px; background: linear-gradient(135deg, var(--primary), #1e40af); 
       display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.95rem; color: #fff;
       box-shadow: 0 0 14px var(--primary-glow);
     }
@@ -84,22 +84,22 @@
     }
     .hdr-btn:hover { background: rgba(255,255,255,0.12); }
     .hdr-btn.admin-btn { background: rgba(245, 158, 11, 0.15); border-color: var(--amber); color: var(--amber); }
-    .hdr-btn.mic-active { background: rgba(244, 63, 94, 0.3) !important; border-color: var(--primary) !important; animation: pulse 1.2s infinite; }
+    .hdr-btn.mic-active { background: rgba(37, 99, 235, 0.3) !important; border-color: var(--primary) !important; animation: pulse 1.2s infinite; }
 
     @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(244, 63, 94, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+      0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
     }
 
     .lgs-countdown-card {
-      background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(244, 63, 94, 0.4);
+      background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(37, 99, 235, 0.4);
       border-radius: 20px; padding: 20px 14px; text-align: center;
-      box-shadow: 0 0 25px rgba(244, 63, 94, 0.25); margin-bottom: 16px;
+      box-shadow: 0 0 25px rgba(37, 99, 235, 0.25); margin-bottom: 16px;
     }
-    .lgs-title { font-size: 0.88rem; font-weight: 900; color: #f43f5e; text-shadow: 0 0 10px rgba(244,63,94,0.6); text-transform: uppercase; letter-spacing: 0.8px; }
+    .lgs-title { font-size: 0.88rem; font-weight: 900; color: #3b82f6; text-shadow: 0 0 10px rgba(59, 130, 246, 0.6); text-transform: uppercase; letter-spacing: 0.8px; }
     .neon-timer { display: flex; justify-content: center; gap: 10px; margin-top: 14px; }
-    .timer-box { background: rgba(3, 7, 18, 0.85); border: 1px solid rgba(244, 63, 94, 0.4); border-radius: 12px; padding: 8px 10px; min-width: 65px; }
+    .timer-box { background: rgba(3, 7, 18, 0.85); border: 1px solid rgba(59, 130, 246, 0.4); border-radius: 12px; padding: 8px 10px; min-width: 65px; }
     .timer-num { font-size: 1.4rem; font-weight: 900; color: #fff; text-shadow: 0 0 12px var(--primary); }
     .timer-label { font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; margin-top: 2px; }
 
@@ -157,7 +157,7 @@
     .msg-group.ai { align-self: flex-start; }
 
     .user-msg {
-      background: linear-gradient(135deg, var(--primary), #be123c); color: #fff;
+      background: linear-gradient(135deg, var(--primary), #1e3a8a); color: #fff;
       border-radius: 18px 18px 4px 18px; padding: 12px 15px; font-size: 0.88rem; line-height: 1.5;
       box-shadow: 0 4px 15px var(--primary-glow); word-break: break-word;
     }
@@ -218,12 +218,12 @@
 
     .news-item { border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; margin-bottom: 12px; position: relative; }
     .news-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .news-tag { font-size: 0.65rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 4px; display: inline-block; background: rgba(244,63,94,0.1); padding: 2px 8px; border-radius: 6px; }
+    .news-tag { font-size: 0.65rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 4px; display: inline-block; background: rgba(37, 99, 235, 0.15); padding: 2px 8px; border-radius: 6px; }
     .news-head { font-size: 0.9rem; font-weight: 800; color: #fff; margin-bottom: 6px; }
     .news-img { width: 100%; max-height: 280px; object-fit: cover; border-radius: 12px; margin: 8px 0; display: block; border: 1px solid var(--card-border); }
     .news-body { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
     .news-date { font-size: 0.65rem; color: var(--text-muted); margin-top: 6px; text-align: right; }
-    .news-del-btn { position: absolute; top: 0; right: 0; background: rgba(244,63,94,0.2); color: var(--primary); border: none; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; cursor: pointer; font-weight: 700; }
+    .news-del-btn { position: absolute; top: 0; right: 0; background: rgba(244,63,94,0.2); color: #f43f5e; border: none; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; cursor: pointer; font-weight: 700; }
 
     .admin-form-group { margin-bottom: 12px; text-align: left; }
     .admin-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; display: block; }
@@ -287,11 +287,11 @@
     <div class="hdr-actions">
       <button class="hdr-btn admin-btn" title="Admin Paneli Girişi" onclick="openAdminModal()">👑</button>
       <div class="user-badge" onclick="openProfileModal()">
-        <div class="user-avatar" id="hdr-avatar">U</div>
-        <div class="user-name" id="hdr-username">Kullanıcı</div>
+        <div class="user-avatar" id="hdr-avatar">Ö</div>
+        <div class="user-name" id="hdr-username">Öğrenci</div>
       </div>
       <button class="hdr-btn" title="Sohbet Geçmişi" onclick="toggleDrawer(true)">📜</button>
-      <button class="hdr-btn" title="Yeni Sohbet" onclick="createNewChat()">➕</button>
+      <button class="hdr-btn" title="Yeni Ders Sohbeti" onclick="createNewChat()">➕</button>
     </div>
   </header>
 
@@ -308,7 +308,7 @@
 
     <div class="search-box">
       <span>🔍</span>
-      <input type="text" id="chat-search-input" placeholder="Sohbetlerde ara..." oninput="filterChatHistory()">
+      <input type="text" id="chat-search-input" placeholder="Konularda ara..." oninput="filterChatHistory()">
     </div>
 
     <div id="history-list-container" class="history-list"></div>
@@ -319,20 +319,20 @@
       <div id="ai-chat-box"></div>
 
       <div class="quick-chips">
-        <button class="chip-btn" onclick="sendQuickPrompt('İman Power FC futbol takımının kadrosunu ve kurucusunu detaylı anlat.')">⚽ İman Power FC Kadrosu</button>
-        <button class="chip-btn" onclick="sendQuickPrompt('Ana uygulama var mı? WhatsApp üzerinden nasıl iletişime geçebilirim?')">📱 Ana Uygulama & WhatsApp</button>
-        <button class="chip-btn" onclick="sendQuickPrompt('LGS / YKS için haftalık ders çalışma programı hazırla.')">📚 Çalışma Programı</button>
-        <button class="chip-btn" onclick="sendQuickPrompt('Matematik ve Fen derslerinde verimli soru çözme taktikleri ver.')">🧠 Soru Çözüm Taktikleri</button>
-        <button class="chip-btn" onclick="sendQuickPrompt('Sınav stresiyle başa çıkma ve motivasyon konuşması yap.')">🔥 Sınav Motivasyonu</button>
+        <button class="chip-btn" onclick="sendQuickPrompt('📐 LGS/YKS Matematik mantık-muhakeme sorusu çözümü için taktik ver.')">📐 Matematik Taktikleri</button>
+        <button class="chip-btn" onclick="sendQuickPrompt('🔬 Fen Bilimleri dersi için verimli çalışma planı öner.')">🔬 Fen Çalışma Rehberi</button>
+        <button class="chip-btn" onclick="sendQuickPrompt('📝 Paragraf sorularını daha hızlı çözmek için neler yapmalıyım?')">📝 Paragraf Çözüm Taktiği</button>
+        <button class="chip-btn" onclick="sendQuickPrompt('📅 LGS / YKS haftalık ders çalışma programı hazırla.')">📅 Ders Çalışma Programı</button>
+        <button class="chip-btn" onclick="sendQuickPrompt('İman Power FC takımı hakkında bilgi verir misin?')">⚽ İman Power FC Bilgisi</button>
       </div>
 
       <div class="chat-input-wrapper">
         <div id="image-preview-badge" style="display:none; font-size:0.75rem; color:var(--emerald); padding:2px 6px; font-weight:700;"></div>
         <div class="input-row">
           <input type="file" id="ai-image-input" accept="image/*" style="display:none;" onchange="handleImageSelect(this)">
-          <button type="button" onclick="document.getElementById('ai-image-input').click()" class="hdr-btn" style="height:38px; width:38px; flex-shrink:0;" title="Soru / Ders Görseli Yükle">📷</button>
-          <button type="button" id="mic-btn" onclick="toggleSpeechToText()" class="hdr-btn" style="height:38px; width:38px; flex-shrink:0;" title="Sesle Konuş">🎙️</button>
-          <input type="text" id="ai-input" placeholder="Soru sorun, konuşun veya resim ekleyin..." onkeypress="if(event.key==='Enter') askAI()">
+          <button type="button" onclick="document.getElementById('ai-image-input').click()" class="hdr-btn" style="height:38px; width:38px; flex-shrink:0;" title="Soru / Görsel Yükle">📷</button>
+          <button type="button" id="mic-btn" onclick="toggleSpeechToText()" class="hdr-btn" style="height:38px; width:38px; flex-shrink:0;" title="Sesle Soru Sor">🎙️</button>
+          <input type="text" id="ai-input" placeholder="Soru sorun, fotoğraf ekleyin veya sesle konuşun..." onkeypress="if(event.key==='Enter') askAI()">
           <button class="send-btn" onclick="askAI()">Gönder</button>
         </div>
       </div>
@@ -340,7 +340,7 @@
 
     <section id="sec-lgs" class="tab-section">
       <div class="lgs-countdown-card">
-        <div class="lgs-title">🔥 LGS HEDEF SINAV GERİ SAYIMI 🔥</div>
+        <div class="lgs-title">🎯 HEDEF SINAV GERİ SAYIMI 🎯</div>
         <div class="neon-timer">
           <div class="timer-box">
             <div class="timer-num" id="lgs-days">00</div>
@@ -361,26 +361,26 @@
         </div>
       </div>
 
-      <div class="card" style="border-color: rgba(244, 63, 94, 0.3);">
-        <div class="card-title" style="color:var(--primary);">🎯 LGS HAZIRLIK REHBERİ</div>
+      <div class="card" style="border-color: rgba(37, 99, 235, 0.3);">
+        <div class="card-title" style="color:var(--primary);">🎯 AKILLI SINAV HAZIRLIK REHBERİ</div>
         <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.6; margin-bottom:10px;">
-          LGS sürecinde düzenli soru çözümü ve konu tekrarları hedeflerinize ulaşmanın en kestirme yoludur.
+          Düzenli soru çözümü, yanlış analizleri ve zaman yönetimi hedefinize ulaşmanın temel unsurlarıdır.
         </p>
         <ul style="font-size:0.8rem; color:#fff; line-height:1.8; padding-left:18px;">
-          <li>Her gün en az 1 Pomodoro Mantık-Muhakeme sorusu çöz.</li>
-          <li>Yanlış yaptığın soruları AI Koçu'na sor.</li>
-          <li>Haftalık deneme analizlerini aksatma.</li>
+          <li>Her gün en az 1 Pomodoro oturumunu yeni nesil soru çözümüne ayır.</li>
+          <li>Çözemediğin soruların resmini çekip AI Asistanı'na sor.</li>
+          <li>Haftalık deneme sınavı analizlerini düzenli olarak not et.</li>
         </ul>
       </div>
     </section>
 
     <section id="sec-pomo" class="tab-section">
       <div class="card">
-        <div class="card-title" style="color:var(--emerald);">⏱️ POMODORO DERS SAYAÇI</div>
+        <div class="card-title" style="color:var(--emerald);">⏱️ ODAKLANMA VE DERS SAYACI</div>
         
         <div style="display:flex; gap:8px; justify-content:center; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
           <label style="font-size:0.8rem; color:var(--text-muted); font-weight:700;">Süre (Dk):</label>
-          <input type="number" id="pomo-custom-mins" value="25" min="1" max="180" style="width:70px; padding:6px 10px; border-radius:10px; border:1px solid var(--card-border); background:rgba(255,255,255,0.05); color:#fff; text-align:center; font-weight:800;" onchange="setCustomPomodoroTime()">
+          <input type="number" id="pomo-custom-mins" value="25" min="1" max="180" style="width:70px; padding:6px 10px; border-radius:10px; border:1px solid var(--card-border); background:rgba(255,255,255,0.05); color:#fff; text-align:center; font-weight:800;" oninput="setCustomPomodoroTime()" onchange="setCustomPomodoroTime()">
           <button onclick="setQuickPomoTime(15)" class="chip-btn" style="padding:4px 8px; font-size:0.75rem;">15 dk</button>
           <button onclick="setQuickPomoTime(25)" class="chip-btn" style="padding:4px 8px; font-size:0.75rem;">25 dk</button>
           <button onclick="setQuickPomoTime(45)" class="chip-btn" style="padding:4px 8px; font-size:0.75rem;">45 dk</button>
@@ -389,7 +389,7 @@
 
         <div class="pomo-display">
           <div class="pomo-status" id="pomo-mode-text">📚 ODAKLANMA ZAMANI (DERS)</div>
-          <div class="pomo-time" id="pomo-timer-display">25:00</div>
+          <div class="pomo-timer-display" id="pomo-timer-display" style="font-size:3.2rem; font-weight:900; color:var(--emerald);">25:00</div>
         </div>
 
         <div class="pomo-controls">
@@ -400,7 +400,7 @@
 
         <div class="pomo-badge-box" style="display:flex; justify-content:space-around; align-items:center; gap:10px;">
           <div>
-            <span style="font-size:0.78rem; color:var(--text-muted); display:block;">Tamamlanan Pomodoro</span>
+            <span style="font-size:0.78rem; color:var(--text-muted); display:block;">Tamamlanan Oturum</span>
             <span id="pomo-count-today" style="font-size:1.2rem; font-weight:900; color:var(--emerald);">0</span> 🍅
           </div>
           <div style="width:1px; height:30px; background:var(--card-border);"></div>
@@ -414,7 +414,7 @@
 
     <section id="sec-news" class="tab-section">
       <div class="card">
-        <div class="card-title">📢 DUYURU VE HABERLER</div>
+        <div class="card-title">📢 DUYURU VE DERS BİLGİLENDİRMELERİ</div>
         <div id="news-list-container"></div>
       </div>
     </section>
@@ -423,87 +423,77 @@
       <div class="wa-banner">
         <div style="font-size:0.95rem; font-weight:900; color:#fff;">📱 İMAN POWER ANA UYGULAMA</div>
         <p style="font-size:0.78rem; color:#e2e8f0; margin-top:6px; line-height:1.4;">
-          Ana uygulamamıza erişmek, özel özelliklerden faydalanmak ve indirmek için kurucumuz ile WhatsApp üzerinden doğrudan iletişime geçebilirsiniz!
+          Uygulama ve platform güncellemeleri için WhatsApp hattımız üzerinden iletişime geçebilirsiniz.
         </p>
-        <a href="https://wa.me/" target="_blank" class="wa-btn">💬 WhatsApp'tan Bize Yazın</a>
+        <a href="https://wa.me/" target="_blank" class="wa-btn">💬 WhatsApp İletişim Line</a>
       </div>
 
       <div class="card" style="border-color: rgba(139, 92, 246, 0.4);">
         <div class="card-title" style="color: var(--ai-purple);">⚡ HAKKIMIZDA</div>
         <p style="font-size:0.85rem; color: var(--text-muted); line-height:1.6; margin-bottom:12px;">
-          <strong>İman Power</strong>, Kurucumuz <strong>Berat Cihad Yeten</strong> liderliğinde yenilikçi yapay zeka teknolojileriyle eğitimi, ders çalışma süreçlerini ve spor dinamiklerini ultra hızlı hale getiren dijital platformdur.
+          <strong>İman Power Portal</strong>, Kurucumuz <strong>Berat Cihad Yeten</strong> liderliğinde öğrencilerin ders başarısını artırmak ve eğitim süreçlerini yapay zeka ile kolaylaştırmak amacıyla tasarlanmıştır.
         </p>
       </div>
 
       <div class="card">
-        <div class="card-title">⚽ İMAN POWER FC</div>
+        <div class="card-title">⚽ İMAN POWER FC (SPOR KULÜBÜ)</div>
         <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.6; margin-bottom:10px;">
-          İman Power FC, yaklaşık 1 yıl önce kurulmuş, tamamı 2013 doğumlu 13 yaşındaki genç oyunculardan oluşan bir futbol takımıdır. Sahada son düdüğe kadar mücadele, arkadaşlık ve gelişimi hedefler.
+          İman Power FC, 2013 doğumlu sporculardan oluşan, disiplin, dostluk ve gelişim odaklı bir futbol takımıdır.
         </p>
         <div style="font-size:0.78rem; color:#fff; line-height:1.8;">
           <strong>👑 Kurucu:</strong> Berat Cihad Yeten<br>
-          <strong>📋 Yönetim & Organizasyon:</strong> Reşit Öztoprak, Mustafa Aslan
+          <strong>📋 Yönetim:</strong> Reşit Öztoprak, Mustafa Aslan
         </div>
       </div>
 
       <div class="card" style="text-align:center;">
-        <div style="font-size:1.1rem; font-weight:900; color:#fff; margin-bottom:4px;">İman Power v9.0</div>
-        <div style="font-size:0.75rem; color:var(--emerald);">Mistral Pixtral Engine & Realtime Stream</div>
+        <div style="font-size:1.1rem; font-weight:900; color:#fff; margin-bottom:4px;">İman Power v10.0</div>
+        <div style="font-size:0.75rem; color:var(--emerald);">Mistral Multimodal Engine & Smart Tutor</div>
       </div>
     </section>
 
     <section id="sec-admin" class="tab-section">
       <div class="card" style="border-color:var(--amber);">
         <div class="card-title" style="color:var(--amber);">👑 YÖNETİCİ & ADMIN PANELİ</div>
-        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:14px;">Platform İçerik ve LGS Sayaç Yönetimi</p>
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:14px;">Portal İçeriği ve Sınav Tarihi Yönetimi</p>
 
         <div style="border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px; margin-bottom:14px;">
-          <h4 style="color:#fff; font-size:0.85rem; margin-bottom:8px;">🎯 LGS Sınav Tarihini Değiştir</h4>
+          <h4 style="color:#fff; font-size:0.85rem; margin-bottom:8px;">🎯 Hedef Sınav Tarihini Değiştir</h4>
           <div class="admin-form-group">
             <label class="admin-label">Hedef Tarih ve Saat</label>
             <input type="datetime-local" id="admin-lgs-date" class="admin-input">
           </div>
-          <button class="admin-btn-action" style="background:linear-gradient(135deg, var(--primary), #be123c);" onclick="saveAdminLgsDate()">⏱️ Sayaç Tarihini Güncelle</button>
+          <button class="admin-btn-action" style="background:linear-gradient(135deg, var(--primary), #1e40af);" onclick="saveAdminLgsDate()">⏱️ Sayaç Tarihini Güncelle</button>
         </div>
 
         <div style="border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px; margin-bottom:14px;">
-          <h4 style="color:#fff; font-size:0.85rem; margin-bottom:8px;">👥 Yeni Admin Yetkisi Ver</h4>
-          <div class="admin-form-group">
-            <label class="admin-label">Admin Yapılacak E-posta veya Kullanıcı ID</label>
-            <input type="text" id="admin-new-user" class="admin-input" placeholder="Örn: admin2@imanpower.com">
-          </div>
-          <button class="admin-btn-action" style="background:linear-gradient(135deg, var(--emerald), #047857);" onclick="addNewAdminRole()">👑 Yetki Ver ve Onayla</button>
-        </div>
-
-        <div style="border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px; margin-bottom:14px;">
-          <h4 style="color:#fff; font-size:0.85rem; margin-bottom:8px;">📢 Yeni Duyuru Yayınla</h4>
+          <h4 style="color:#fff; font-size:0.85rem; margin-bottom:8px;">📢 Yeni Duyuru / Bilgilendirme Ekle</h4>
           
           <div class="admin-form-group">
-            <label class="admin-label">Duyuru / Haber Başlığı</label>
-            <input type="text" id="admin-news-title" class="admin-input" placeholder="Örn: LGS Deneme Sınavı Takvimi Açıklandı!">
+            <label class="admin-label">Başlık</label>
+            <input type="text" id="admin-news-title" class="admin-input" placeholder="Örn: Deneme Sınavı Takvimi Açıkladı">
           </div>
 
           <div class="admin-form-group">
-            <label class="admin-label">Etiket / Kategori</label>
-            <input type="text" id="admin-news-tag" class="admin-input" placeholder="Örn: 📚 DERS DUYURUSU">
+            <label class="admin-label">Kategori</label>
+            <input type="text" id="admin-news-tag" class="admin-input" placeholder="Örn: 📚 DERS BİLGİSİ">
           </div>
 
           <div class="admin-form-group">
-            <label class="admin-label">Görsel Ekle (Opsiyonel Resim Dosyası Seçin)</label>
+            <label class="admin-label">Görsel Dosyası (Opsiyonel)</label>
             <input type="file" id="admin-news-image-file" class="admin-input" accept="image/*">
           </div>
 
           <div class="admin-form-group">
-            <label class="admin-label">İçerik Detayı</label>
-            <textarea id="admin-news-body" class="admin-textarea" placeholder="Duyuru detaylarını yazınız..."></textarea>
+            <label class="admin-label">Açıklama Detayı</label>
+            <textarea id="admin-news-body" class="admin-textarea" placeholder="Duyuru içeriği..."></textarea>
           </div>
 
-          <button class="admin-btn-action" onclick="publishAdminNews()">🚀 Duyuruyu Yayınla</button>
+          <button class="admin-btn-action" onclick="publishAdminNews()">🚀 Yayınla</button>
         </div>
 
         <div>
-          <h4 style="color:#fff; font-size:0.85rem; margin-bottom:8px;">🗑️ Yayınlanmış Duyuruları Yönet & Tek Tek Sil</h4>
-          <p style="font-size:0.72rem; color:var(--text-muted); margin-bottom:10px;">Sistemde kayıtlı tüm duyurular aşağıda listelenmiştir.</p>
+          <h4 style="color:#fff; font-size:0.85rem; margin-bottom:8px;">🗑️ Kayıtlı Duyuruları Yönet</h4>
           <div id="admin-news-list" style="display:flex; flex-direction:column; gap:8px; max-height:250px; overflow-y:auto; padding-right:4px;"></div>
         </div>
       </div>
@@ -513,11 +503,11 @@
   <nav>
     <button class="nav-btn active" onclick="switchTab('ai', this)">
       <span class="nav-icon">🤖</span>
-      <span>Zeka AI</span>
+      <span>Ders Asistanı</span>
     </button>
     <button class="nav-btn" onclick="switchTab('lgs', this)">
       <span class="nav-icon">🎯</span>
-      <span>LGS Sayaç</span>
+      <span>Sınav Sayaç</span>
     </button>
     <button class="nav-btn" onclick="switchTab('pomo', this)">
       <span class="nav-icon">⏱️</span>
@@ -525,18 +515,18 @@
     </button>
     <button class="nav-btn" onclick="switchTab('news', this)">
       <span class="nav-icon">📢</span>
-      <span>Duyuru</span>
+      <span>Duyurular</span>
     </button>
     <button class="nav-btn" onclick="switchTab('about', this)">
       <span class="nav-icon">ℹ️</span>
-      <span>Biz Kimiz</span>
+      <span>Kurumsal</span>
     </button>
   </nav>
 
   <div id="admin-auth-modal" class="modal">
     <div class="modal-card">
-      <div class="modal-title" style="color:var(--amber);">🔒 ADMIN GİRİŞİ</div>
-      <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:14px;">Yönetim Paneli Güvenlik Şifresi</p>
+      <div class="modal-title" style="color:var(--amber);">🔒 YÖNETİCİ GİRİŞİ</div>
+      <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:14px;">Güvenlik Parolasını Giriniz</p>
       
       <input type="password" id="admin-pass-input" placeholder="Admin Şifresi" class="modal-input">
       
@@ -547,29 +537,29 @@
 
   <div id="auth-modal" class="modal">
     <div class="modal-card">
-      <div class="modal-title" style="color:var(--primary);">İMAN POWER</div>
-      <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:14px;">AI Ders & Eğitim Portalına Giriş Yapın</p>
+      <div class="modal-title" style="color:var(--primary);">İMAN POWER PORTAL</div>
+      <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:14px;">Ders Portalı Giriş Ekranı</p>
       
       <input type="text" id="auth-name" placeholder="Adınız Soyadınız" class="modal-input">
       <input type="email" id="auth-email" placeholder="E-posta Adresiniz" class="modal-input">
       <input type="password" id="auth-pass" placeholder="Şifreniz" class="modal-input">
       
       <button class="modal-btn" onclick="handleAuth('login')">Giriş Yap</button>
-      <button class="modal-btn sec" onclick="handleAuth('register')">Yeni Kayıt Ol</button>
+      <button class="modal-btn sec" onclick="handleAuth('register')">Yeni Öğrenci Kaydı</button>
     </div>
   </div>
 
   <div id="profile-modal" class="modal">
     <div class="modal-card">
-      <div class="modal-title">👤 Profil Bilgileri</div>
+      <div class="modal-title">👤 Öğrenci Profili</div>
       <div style="margin-bottom:14px;">
         <input type="text" id="edit-display-name" class="modal-input" placeholder="Adınız Soyadınız">
       </div>
       <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">
-        Bugün Tamamlanan Pomodoro: <strong id="profile-pomo-count" style="color:var(--emerald);">0</strong> 🍅
+        Bugün Tamamlanan Çalışma: <strong id="profile-pomo-count" style="color:var(--emerald);">0</strong> 🍅
       </div>
       <button class="modal-btn" onclick="saveProfileName()">İsmi Güncelle</button>
-      <button class="modal-btn sec" style="color:#f43f5e; border-color:rgba(244,63,94,0.3);" onclick="logoutUser()">Çıkış Yap</button>
+      <button class="modal-btn sec" style="color:#f43f5e; border-color:rgba(244,63,94,0.3);" onclick="logoutUser()">Oturumu Kapat</button>
       <button class="modal-btn sec" onclick="closeProfileModal()">Kapat</button>
     </div>
   </div>
@@ -609,7 +599,6 @@
 
   let lgsTargetTimestamp = new Date("2027-06-06T09:30:00").getTime();
 
-  // Speech API Nesneleri
   let recognition = null;
   let isRecording = false;
   let currentSpeakingBtn = null;
@@ -667,9 +656,10 @@
   function setCustomPomodoroTime() {
     if (isPomoRunning) return;
     const inputEl = document.getElementById("pomo-custom-mins");
-    const mins = parseInt(inputEl.value) || 25;
-    pomoWorkMinutes = Math.max(1, Math.min(180, mins));
-    inputEl.value = pomoWorkMinutes;
+    let mins = parseInt(inputEl.value);
+    if (isNaN(mins) || mins < 1) mins = 1;
+    if (mins > 180) mins = 180;
+    pomoWorkMinutes = mins;
     if (!isPomoBreak) {
       pomoSecondsLeft = pomoWorkMinutes * 60;
       updatePomoDisplay();
@@ -691,7 +681,13 @@
 
   function startPomodoro() {
     if (isPomoRunning) return;
+
+    if (pomoSecondsLeft <= 0) {
+      pomoSecondsLeft = (isPomoBreak ? 5 : pomoWorkMinutes) * 60;
+    }
+
     isPomoRunning = true;
+    clearInterval(pomoTimer);
     pomoTimer = setInterval(() => {
       pomoSecondsLeft--;
       updatePomoDisplay();
@@ -699,13 +695,13 @@
         clearInterval(pomoTimer);
         isPomoRunning = false;
         if (!isPomoBreak) {
-          alert(`🎉 Harika! ${pomoWorkMinutes} Dakikalık Ders Pomodoro'su Tamamlandı. Şimdi 5 Dakika Mola Zamanı!`);
+          alert(`🎉 Tebrikler! ${pomoWorkMinutes} dakikalık odaklanma oturumunu tamamladınız. 5 dakika mola zamanı.`);
           incrementPomodoroCount(pomoWorkMinutes);
           isPomoBreak = true;
           pomoSecondsLeft = 5 * 60;
           document.getElementById("pomo-mode-text").innerText = "☕ MOLA ZAMANI (5 DK)";
         } else {
-          alert("🔔 Mola süreniz bitti! Yeni ders seansı için hazır mısınız?");
+          alert("🔔 Mola süresi bitti. Yeni ders oturumu için hazır mısınız?");
           isPomoBreak = false;
           pomoSecondsLeft = pomoWorkMinutes * 60;
           document.getElementById("pomo-mode-text").innerText = "📚 ODAKLANMA ZAMANI (DERS)";
@@ -779,11 +775,11 @@
     const pass = document.getElementById('auth-pass').value.trim();
     const name = document.getElementById('auth-name').value.trim();
 
-    if (!email || !pass) return alert("Lütfen e-posta ve şifrenizi girin.");
+    if (!email || !pass) return alert("Lütfen e-posta ve şifrenizi giriniz.");
 
     try {
       if (type === 'register') {
-        if (!name) return alert("Lütfen adınızı giriniz.");
+        if (!name) return alert("Lütfen adınızı ve soyadınızı giriniz.");
         const res = await auth.createUserWithEmailAndPassword(email, pass);
         await res.user.updateProfile({ displayName: name });
         updateUserHeaderUI(name);
@@ -813,9 +809,9 @@
       document.getElementById('admin-pass-input').value = '';
       switchTab('admin', document.querySelector('.hdr-btn.admin-btn'));
       listenLiveNews();
-      alert("✅ Admin Girişi Başarılı! Yönetici Paneli Aktif.");
+      alert("✅ Yönetici girişi başarılı.");
     } else {
-      alert("❌ Hatalı Admin Şifresi!");
+      alert("❌ Hatalı yönetici parolası.");
     }
   }
 
@@ -824,21 +820,7 @@
     if (!dateVal) return alert("Lütfen geçerli bir tarih seçiniz.");
 
     await db.ref('config/lgsTargetDate').set(dateVal);
-    alert("🎉 LGS Sınav tarihi tüm kullanıcılar için güncellendi!");
-  }
-
-  async function addNewAdminRole() {
-    const userInput = document.getElementById('admin-new-user').value.trim();
-    if (!userInput) return alert("Lütfen kullanıcı e-posta veya ID girin.");
-
-    const key = userInput.replace(/[\.\#\$\[\]]/g, "_");
-    await db.ref(`admins/${key}`).set({
-      grantedBy: currentUser?.email || 'System',
-      timestamp: Date.now()
-    });
-
-    document.getElementById('admin-new-user').value = '';
-    alert("✅ Yeni Admin başarıyla eklendi!");
+    alert("🎉 Sınav tarihi güncellendi.");
   }
 
   async function publishAdminNews() {
@@ -847,13 +829,13 @@
     const body = document.getElementById('admin-news-body').value.trim();
     const fileInput = document.getElementById('admin-news-image-file');
 
-    if (!title || !body) return alert("Lütfen başlık ve içeriği doldurun.");
+    if (!title || !body) return alert("Lütfen başlık ve içerik alanlarını doldurunuz.");
 
     let imageDataUrl = "";
     if (fileInput && fileInput.files && fileInput.files[0]) {
       const file = fileInput.files[0];
       if (file.size > 3 * 1024 * 1024) {
-        return alert("Görsel boyutu çok büyük! Lütfen 3MB'dan küçük bir resim seçin.");
+        return alert("Görsel boyutu 3MB'dan küçük olmalıdır.");
       }
       try {
         imageDataUrl = await new Promise((resolve, reject) => {
@@ -863,7 +845,7 @@
           reader.readAsDataURL(file);
         });
       } catch(e) {
-        console.error("Resim okuma hatası:", e);
+        console.error("Görsel okuma hatası:", e);
       }
     }
 
@@ -881,11 +863,11 @@
     document.getElementById('admin-news-body').value = '';
     if (fileInput) fileInput.value = '';
 
-    alert("🎉 Duyuru başarıyla yayınlandı!");
+    alert("Duyuru yayınlandı.");
   }
 
   function deleteNewsItem(id) {
-    if (!isAdminAuthenticated) return alert("Bu işlem için Admin yetkisi gereklidir.");
+    if (!isAdminAuthenticated) return alert("Yetkisiz işlem.");
     if (confirm("Bu duyuruyu silmek istediğinize emin misiniz?")) {
       db.ref(`news/${id}`).remove();
     }
@@ -904,12 +886,12 @@
       if (!data) {
         newsList.innerHTML = `
           <div class="news-item">
-            <div class="news-tag">⚡ SISTEM</div>
-            <div class="news-head">Ultra Hızlı Yapay Zeka Desteği Aktif</div>
-            <div class="news-body">Sorularınızı ve ders konularınızı doğrudan yazarak anında yanıt alabilirsiniz.</div>
+            <div class="news-tag">⚡ DERS SİSTEMİ</div>
+            <div class="news-head">Yapay Zeka Ders Asistanı Aktif</div>
+            <div class="news-body">Sorularınızı metin yazarak, sesinizle konuşarak veya soru fotoğrafı yükleyerek sorabilirsiniz.</div>
           </div>`;
         if (adminNewsList) {
-          adminNewsList.innerHTML = '<div style="font-size:0.75rem; color:var(--text-muted); text-align:center; padding:10px;">Henüz yayınlanmış bir duyuru yok.</div>';
+          adminNewsList.innerHTML = '<div style="font-size:0.75rem; color:var(--text-muted); text-align:center; padding:10px;">Henüz yayınlanmış bir duyuru bulunmuyor.</div>';
         }
         return;
       }
@@ -918,7 +900,7 @@
         const item = data[id];
         const dateStr = new Date(item.timestamp || Date.now()).toLocaleDateString('tr-TR', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
         const delBtnHTML = isAdminAuthenticated ? `<button class="news-del-btn" onclick="deleteNewsItem('${id}')">Sil 🗑️</button>` : '';
-        const imgHTML = item.image ? `<img src="${item.image}" class="news-img" alt="Duyuru Görseli">` : '';
+        const imgHTML = item.image ? `<img src="${item.image}" class="news-img" alt="Görsel">` : '';
 
         const div = document.createElement('div');
         div.className = 'news-item';
@@ -940,7 +922,7 @@
               <div style="font-size:0.8rem; font-weight:800; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHTML(item.title)}</div>
               <div style="font-size:0.68rem; color:var(--text-muted); font-weight:600;">${escapeHTML(item.tag)} • ${dateStr}</div>
             </div>
-            <button onclick="deleteNewsItem('${id}')" style="background:rgba(244,63,94,0.2); color:var(--primary); border:1px solid rgba(244,63,94,0.4); padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:800; cursor:pointer; flex-shrink:0;">Sil 🗑️</button>
+            <button onclick="deleteNewsItem('${id}')" style="background:rgba(244,63,94,0.2); color:#f43f5e; border:1px solid rgba(244,63,94,0.4); padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:800; cursor:pointer; flex-shrink:0;">Sil 🗑️</button>
           `;
           adminNewsList.appendChild(adminItem);
         }
@@ -958,12 +940,12 @@
       await currentUser.updateProfile({ displayName: newName });
       updateUserHeaderUI(newName);
       closeProfileModal();
-      alert("Profil isminiz güncellendi!");
+      alert("Profil isminiz güncellendi.");
     } catch (e) { alert("Hata: " + e.message); }
   }
 
   function logoutUser() {
-    if (confirm("Çıkış yapmak istediğinize emin misiniz?")) {
+    if (confirm("Oturumu kapatmak istediğinize emin misiniz?")) {
       closeProfileModal();
       auth.signOut();
     }
@@ -1000,7 +982,7 @@
       const dateStr = chat.lastUpdated ? new Date(chat.lastUpdated).toLocaleDateString('tr-TR', { hour: '2-digit', minute: '2-digit' }) : '';
       item.innerHTML = `
         <div class="history-info" onclick="switchChat('${id}')">
-          <div class="history-item-title">${chat.title || 'Yeni Sohbet'}</div>
+          <div class="history-item-title">${chat.title || 'Yeni Ders Çalışması'}</div>
           <div class="history-item-date">${dateStr}</div>
         </div>
         <span class="delete-chat-btn" onclick="deleteChat('${id}', event)">🗑️</span>
@@ -1025,13 +1007,12 @@
     toggleDrawer(false);
     document.getElementById('ai-chat-box').innerHTML = '';
     const name = currentUser?.displayName || 'Öğrencimiz';
-    renderAIMessage(`Merhaba **${name}**! Nasılsın? Ben senin akıllı ders ve sohbet asistanınım. 
+    renderAIMessage(`Merhaba **${name}**! Ders ve sınav asistanınız hazır.
 
-📷 **Görsel Soru Çözümü:** İstersen soru fotoğraflarını 📷 butonuna basarak yükleyebilirsin; anında okuyup adım adım çözerim.
-🎙️ **Sesle Soru Sorma:** Konuşarak soru sormak için 🎙️ butonuna basabilirsin.
-⚽ **İman Power FC:** Takımımız ve oyuncu kadromuz hakkında merak ettiğin her şeyi sorabilirsin!
+📷 **Soru Çözümü:** Çözemediğiniz soruların fotoğrafını ekleyin, net ve pratik bir şekilde çözelim.
+🎙️ **Sesli Soru:** Sorularınızı 🎙️ butonuna basarak iletebilirsiniz.
 
-Derslerinde ve takıldığın her konuda yardımcı olmak için buradayım. Bugün ne çalışıyoruz? 📚⚡`);
+Hangi konu veya soruyla başlıyoruz?`);
   }
 
   function switchChat(chatId) {
@@ -1052,7 +1033,7 @@ Derslerinde ve takıldığın her konuda yardımcı olmak için buradayım. Bug�
 
   function deleteChat(chatId, e) {
     e.stopPropagation();
-    if (confirm("Bu sohbeti silmek istediğinize emin misiniz?")) {
+    if (confirm("Bu çalışmayı silmek istediğinize emin misiniz?")) {
       db.ref(`user_chats/${currentUser.uid}/${chatId}`).remove();
       db.ref(`chat_messages/${currentUser.uid}/${chatId}`).remove();
       if (activeChatId === chatId) activeChatId = null;
@@ -1071,7 +1052,6 @@ Derslerinde ve takıldığın her konuda yardımcı olmak için buradayım. Bug�
   function parseMarkdown(text) {
     if (!text) return '';
 
-    // Ham LaTeX işaretlerini ve gereksiz simgeleri temizle
     let cleanText = text
       .replace(/\\text\{([^}]+)\}/g, '$1')
       .replace(/\\lfloor/g, '⌊')
@@ -1092,12 +1072,12 @@ Derslerinde ve takıldığın her konuda yardımcı olmak için buradayım. Bug�
         const cells = trimmed.split('|').slice(1, -1).map(c => c.trim());
         if (!inTable) {
           inTable = true;
-          tableHTML = '<table><thead><tr>';
-          cells.forEach(c => tableHTML += `<th>${c}</th>`);
+          tableHTML = '<table style="width:100%; border-collapse:collapse; margin:10px 0; font-size:0.8rem;"><thead><tr>';
+          cells.forEach(c => tableHTML += `<th style="border:1px solid var(--card-border); padding:6px; background:rgba(255,255,255,0.05);">${c}</th>`);
           tableHTML += '</tr></thead><tbody>';
         } else {
           tableHTML += '<tr>';
-          cells.forEach(c => tableHTML += `<td>${c}</td>`);
+          cells.forEach(c => tableHTML += `<td style="border:1px solid var(--card-border); padding:6px;">${c}</td>`);
           tableHTML += '</tr>';
         }
       } else {
@@ -1132,7 +1112,7 @@ Derslerinde ve takıldığın her konuda yardımcı olmak için buradayım. Bug�
     group.innerHTML = `
       <div class="ai-msg">
         <div class="ai-msg-header">
-          <div class="ai-title">⚡ ZEKA AI</div>
+          <div class="ai-title">⚡ DERS ASİSTANI</div>
         </div>
         <div class="ai-msg-content">${formattedText}</div>
         <div class="msg-toolbar">
@@ -1144,7 +1124,6 @@ Derslerinde ve takıldığın her konuda yardımcı olmak için buradayım. Bug�
 
     chatBox.appendChild(group);
 
-    // KaTeX Render Tetikleme
     if (window.renderMathInElement) {
       try {
         renderMathInElement(group, {
@@ -1175,10 +1154,9 @@ Derslerinde ve takıldığın her konuda yardımcı olmak için buradayım. Bug�
     setTimeout(() => btn.innerText = '📋 Kopyala', 2000);
   }
 
-  // SESLİ YANIT DİNLEME VE DURDURMA (Text-to-Speech)
   function toggleTTS(btn) {
     if (!('speechSynthesis' in window)) {
-      return alert("Üzgünüm, tarayıcınız sesli okuma özelliğini desteklemiyor.");
+      return alert("Tarayıcınız sesli okuma özelliğini desteklememektedir.");
     }
 
     if (window.speechSynthesis.speaking && currentSpeakingBtn === btn) {
@@ -1221,11 +1199,10 @@ Derslerinde ve takıldığın her konuda yardımcı olmak için buradayım. Bug�
     window.speechSynthesis.speak(utterance);
   }
 
-  // SESLE MESAJ GÖNDERME (Speech-to-Text - Donmayan Optimize Sürüm)
   function toggleSpeechToText() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
-      return alert("Üzgünüm, tarayıcınız ses tanıma özelliğini desteklemiyor. Lütfen Chrome veya Edge kullanın.");
+      return alert("Tarayıcınız ses tanıma özelliğini desteklememektedir.");
     }
 
     const micBtn = document.getElementById('mic-btn');
@@ -1244,7 +1221,7 @@ Derslerinde ve takıldığın her konuda yardımcı olmak için buradayım. Bug�
     recognition.onstart = () => {
       isRecording = true;
       micBtn.classList.add('mic-active');
-      inputEl.placeholder = "Dinleniyor... Konuşun...";
+      inputEl.placeholder = "Dinleniyor... Sorunuzu söyleyin...";
     };
 
     recognition.onresult = (e) => {
@@ -1257,32 +1234,26 @@ Derslerinde ve takıldığın her konuda yardımcı olmak için buradayım. Bug�
 
     recognition.onerror = (e) => {
       console.error("Ses tanıma hatası:", e.error);
-      if (e.error === 'not-allowed') {
-        alert("Mikrofon izni engellendi! Lütfen tarayıcı adres çubuğundaki kilit simgesinden mikrofona izin verin.");
-      }
       stopRecordingUI();
     };
 
     recognition.onend = () => {
       stopRecordingUI();
       if (inputEl.value.trim().length > 0) {
-        setTimeout(() => {
-          askAI();
-        }, 300);
+        setTimeout(() => { askAI(); }, 300);
       }
     };
 
     try {
       recognition.start();
     } catch (err) {
-      console.error("Mikrofon başlatma hatası:", err);
       stopRecordingUI();
     }
 
     function stopRecordingUI() {
       isRecording = false;
       micBtn.classList.remove('mic-active');
-      inputEl.placeholder = "Soru sorun, konuşun veya resim ekleyin...";
+      inputEl.placeholder = "Soru sorun, fotoğraf ekleyin veya sesle konuşun...";
     }
   }
 
@@ -1298,7 +1269,7 @@ Derslerinde ve takıldığın her konuda yardımcı olmak için buradayım. Bug�
   function handleImageSelect(input) {
     const badge = document.getElementById('image-preview-badge');
     if (input.files && input.files[0]) {
-      badge.innerText = `📷 Eklenen Görsel: ${input.files[0].name}`;
+      badge.innerText = `📷 Yüklenen Görsel: ${input.files[0].name}`;
       badge.style.display = 'block';
     } else {
       badge.style.display = 'none';
@@ -1320,7 +1291,7 @@ Derslerinde ve takıldığın her konuda yardımcı olmak için buradayım. Bug�
       try {
         imagePartBase64 = await convertFileToBase64(file);
       } catch (e) {
-        console.error("Görsel işleme hatası:", e);
+        console.error("Görsel okuma hatası:", e);
       }
       imageInput.value = '';
       document.getElementById('image-preview-badge').style.display = 'none';
@@ -1328,47 +1299,39 @@ Derslerinde ve takıldığın her konuda yardımcı olmak için buradayım. Bug�
 
     inputEl.value = '';
 
-    const chatTitle = prompt ? (prompt.length > 25 ? prompt.substring(0, 25) + '...' : prompt) : 'Görsel Soru';
+    const chatTitle = prompt ? (prompt.length > 25 ? prompt.substring(0, 25) + '...' : prompt) : 'Soru Fotoğrafı';
     db.ref(`user_chats/${currentUser.uid}/${activeChatId}`).update({
       title: chatTitle,
       lastUpdated: Date.now()
     });
 
-    const userDisplayText = prompt || "📷 [Resim Yüklendi]";
+    const userDisplayText = prompt || "📷 [Soru Görseli Yüklendi]";
     renderUserMessage(userDisplayText);
     await db.ref(`chat_messages/${currentUser.uid}/${activeChatId}`).push({
       role: 'user', text: userDisplayText, time: Date.now()
     });
 
-    // BİLGİLİ, CANA YAKIN, KOD-KARMASA BASTIRILMIŞ VE 2026/2013 GÜNCEL SİSTEM TALİMATI
-    const systemPromptText = `Sen ${currentUser.displayName || 'Öğrencimiz'} ile konuşan samimi, içten, anlayışlı ve çok bilgili bir akıllı ders ve sohbet asistanısın.
+    // ODAKLI, PRATİK, KISA VE ZEKİ DERS ASİSTANI TALİMATI
+    const systemPromptText = `Sen ${currentUser.displayName || 'Öğrencimiz'} ile iletişim kuran son derece zeki, net, öz ve alanında uzman bir Akıllı Eğitim & Ders Asistanısın.
 
-GÜNCEL TARİH VE YIL BİLGİSİ (ÇOK ÖNEMLİ):
-- Bulunduğumuz yıl 2026'dır.
-- İman Power FC futbol oyuncuları 2013 doğumludur (13 yaşındadır). Kendini 2024 veya eski yıllarda kalmış gibi düşünme! Yaş ve tarih hesaplamalarını 2026 yılına göre yap.
+GÜNCEL ZAMAN VE MÜFREDAT BİLGİSİ:
+- Bulunduğumuz yıl 2026'dır. Tüm hesaplama ve müfredat analizlerini 2026 yılına göre yap.
+- MEB ve ÖSYM güncel yeni nesil soru tiplerine tam hakimsin.
 
-İLETİŞİM VE İÇERİK TALİMATLARI:
-1. SAMİMİ VE CANA YAKIN OL: Kullanıcı "nasılsın", "merhaba", "ne haber" dediğinde içten, güler yüzlü bir arkadaş gibi karşılık ver, hal hatır sor ve moral ver.
-2. TEMİZ VE SADE MATEMATİK ANLATIMI: Asla \\text{}, \\lfloor, \\frac{} gibi ham LaTeX/kod simgeleri veya karmaşık işaretler KULLANMA! Matematiksel işlemleri herkesin kolayca okuyabileceği sade düz metin formatında yaz (Örn: 126 / 5 = 25, 5 cm²).
-3. GEREKSİZ KOD VE KARMAŞADAN KAÇIN: Yanıtlarında yazılımsal kodlar veya kafa karıştırıcı semboller kullanma. Cevapların net, anlaşılır ve dersi kolayca kavratan biçimde olsun.
-
-⚽ TAKIMIMIZ VE KADROMUZ (İMAN POWER FC BİLGİSİ):
-Kullanıcı takımımız, oyuncularımız, kurucumuz veya İman Power FC hakkında bilgi istediğinde şu detaylara tam hakim olarak cevap ver:
-- **Takım Hakkında:** İman Power FC, yaklaşık 1 yıl önce kurulmuş, tamamı 2013 doğumlu (13 yaşında) genç oyunculardan oluşan bir futbol takımıdır. En büyük hedefi birlikte hareket etmek, futbol sevgisini büyütmek, kendini geliştirmek ve sahada son düdüğe kadar mücadele etmektir.
-- **Kurucu:** Berat Cihad Yeten
-- **Yönetim ve Organizasyon Yardımcıları:** Reşit Öztoprak ve Mustafa Aslan
-- **Sloganlar & Takım Ruhu:** "Bir takım, bir aile, tek hedef!", "Sahada son düdüğe kadar mücadele!", "2013'lü olarak başladık, daha yolun başındayız!"
-- **Takım Kadrosu:**
-  * 🧤 **Kaleci:** Güney Atahan (Savunmanın arkasındaki son güven noktası).
-  * 🛡️ **Defans:** Umut Güzelyüz, Abdurrahman Özcan, Berat Cihad Yeten, Reşit Öztoprak (Rakip atakları durduran, oyunu geriden kuran güçlü dörtlü savunma).
-  * 🎯 **Orta Saha:** Ali Tuna, Mustafa Aslan (Oyun bağlantısını oluşturan, pas trafiğini yöneten orta saha).
-  * 🔥 **Forvet:** Ali Coşkun, Mustafa Değirmenci (Rakip savunmaya baskı yapan, fırsatları gole çeviren hücum hattı).
-- **İletişim / Ana Uygulama:** WhatsApp üzerinden kurulabilir.`;
+İLETİŞİM VE CEVAP İLKELERİ:
+1. KISA, ZEKİ VE YERİNDE CEVAPLAR: Laf kalabalığı, gereksiz girizgah ve uzatılmış cümlelerden kesinlikle kaçın. Doğrudan, pratik ve nokta atışı yanıt ver.
+2. PRATİK VE HIZLI SORU ÇÖZÜMÜ: Soru çözerken lafı uzatma. Adeta derece yapan bir öğrencinin pratikliğiyle çözümü sun:
+   - 📌 **Mantık / Kural:** Hangi yöntem kullanılıyor?
+   - ✍️ **Kısaca Çözüm:** Doğrudan ve anlaşılır işlem adımları.
+   - ✅ **Sonuç:** Net ve belirgin cevap.
+3. FUTBOL VE TAKIM HAKKINDA SADECE SORULDUĞUNDA KONUŞ: Kullanıcı doğrudan İman Power FC veya takım hakkında soru sormadığı sürece FUTBOL VEYA TAKIM KONUSUNU ASLA AÇMA. Sorulursa kısaca şu bilgiyi ver:
+   - İman Power FC, 2013 doğumlu (2026'da 13 yaşında) oyunculardan oluşan bir takımdır. Kurucu: Berat Cihad Yeten | Yönetim: Reşit Öztoprak, Mustafa Aslan.
+4. GÖRSEL ANALİZİ (VISION): Yüklenen görsellerdeki soru metinlerini ve şekilleri dikkatle incele, vakit kaybetmeden çözümü ilet.
+5. TEMİZ FORMATTING: Matematik formüllerini net, KaTeX ile uyumlu ve okunaklı biçimde yaz.`;
 
     const snapshot = await db.ref(`chat_messages/${currentUser.uid}/${activeChatId}`).once('value');
     const historyData = snapshot.val() || {};
     const allMsgs = Object.values(historyData);
-
     const recentMsgs = allMsgs.slice(-20);
 
     const messages = [
@@ -1383,7 +1346,7 @@ Kullanıcı takımımız, oyuncularımız, kurucumuz veya İman Power FC hakkın
         messages.push({
           role: "user",
           content: [
-            { type: "text", text: m.text || "Resimdeki soruyu çöz." },
+            { type: "text", text: m.text || "Görseldeki soruyu doğrudan ve pratik adımlarla çöz." },
             { type: "image_url", image_url: { url: imagePartBase64 } }
           ]
         });
@@ -1401,9 +1364,9 @@ Kullanıcı takımımız, oyuncularımız, kurucumuz veya İman Power FC hakkın
     streamGroup.innerHTML = `
       <div class="ai-msg">
         <div class="ai-msg-header">
-          <div class="ai-title">⚡ ZEKA AI</div>
+          <div class="ai-title">⚡ DERS ASİSTANI</div>
         </div>
-        <div class="ai-msg-content" id="active-stream-target"><span style="color:var(--text-muted);">Yazıyor... 💭</span></div>
+        <div class="ai-msg-content" id="active-stream-target"><span style="color:var(--text-muted);">İnceleniyor... 💭</span></div>
         <div class="msg-toolbar">
           <button class="msg-tool-btn tts-btn" onclick="toggleTTS(this)">🔊 Dinle</button>
           <button class="msg-tool-btn" onclick="copyMsgText(this)">📋 Kopyala</button>
@@ -1425,7 +1388,7 @@ Kullanıcı takımımız, oyuncularımız, kurucumuz veya İman Power FC hakkın
         body: JSON.stringify({
           model: MISTRAL_MODEL,
           messages: messages,
-          temperature: 0.7,
+          temperature: 0.4,
           stream: true
         })
       });
@@ -1495,7 +1458,7 @@ Kullanıcı takımımız, oyuncularımız, kurucumuz veya İman Power FC hakkın
 
     } catch (e) {
       console.error("Mistral Bağlantı Hatası:", e);
-      streamContentEl.innerHTML = `<span style="color:#f43f5e;">⚠️ Yanıt alınırken bir hata oluştu: ${escapeHTML(e.message)}</span>`;
+      streamContentEl.innerHTML = `<span style="color:#f43f5e;">⚠️ Yanıt alınırken bir sorun oluştu: ${escapeHTML(e.message)}</span>`;
     }
   }
 
