@@ -14,6 +14,13 @@
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
 
+  <!-- Cropper.js Görsel Kırpma Kütüphanesi -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+  <!-- PDF.js PDF Test Destek Kütüphanesi -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
   <style>
     :root {
       --bg-dark: #030712;
@@ -26,6 +33,7 @@
       --ai-glow: rgba(139, 92, 246, 0.3);
       --emerald: #10b981;
       --amber: #f59e0b;
+      --rose: #f43f5e;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
     }
@@ -84,13 +92,64 @@
     }
     .hdr-btn:hover { background: rgba(255,255,255,0.12); }
     .hdr-btn.admin-btn { background: rgba(245, 158, 11, 0.15); border-color: var(--amber); color: var(--amber); }
-    .hdr-btn.mic-active { background: rgba(37, 99, 235, 0.3) !important; border-color: var(--primary) !important; animation: pulse 1.2s infinite; }
 
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+    @keyframes supportGlowAnim {
+      0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.8); color: #f43f5e; }
+      50% { box-shadow: 0 0 16px 6px rgba(244, 63, 94, 0.9); color: #fda4af; background: rgba(244, 63, 94, 0.25); }
+      100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.8); color: #f43f5e; }
     }
+    .support-pulse {
+      animation: supportGlowAnim 1.2s infinite !important;
+      border-color: var(--rose) !important;
+    }
+
+    @keyframes adminGlowAnim {
+      0% { text-shadow: 0 0 5px #f59e0b, 0 0 10px #f59e0b, 0 0 15px #eab308; color: #fef08a; }
+      50% { text-shadow: 0 0 12px #fbbf24, 0 0 22px #f59e0b, 0 0 32px #d97706, 0 0 42px #b45309; color: #ffffff; }
+      100% { text-shadow: 0 0 5px #f59e0b, 0 0 10px #f59e0b, 0 0 15px #eab308; color: #fef08a; }
+    }
+    .admin-glow-text {
+      font-weight: 900;
+      animation: adminGlowAnim 1.8s infinite alternate;
+      color: #fbbf24;
+      letter-spacing: 0.5px;
+    }
+    .player-name-text { font-weight: 800; color: #38bdf8; }
+
+    .support-layout {
+      display: flex; background: rgba(3, 7, 18, 0.75);
+      border: 1px solid var(--card-border); border-radius: 16px;
+      height: 380px; overflow: hidden; margin-top: 10px;
+    }
+    .support-sidebar {
+      width: 140px; border-right: 1px solid var(--card-border);
+      display: flex; flex-direction: column; background: rgba(15, 23, 42, 0.6); flex-shrink: 0;
+    }
+    .support-sidebar-header {
+      padding: 8px; font-size: 0.72rem; font-weight: 800; color: var(--text-muted);
+      border-bottom: 1px solid var(--card-border); text-transform: uppercase; text-align: center;
+    }
+    .support-topic-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+    .support-topic-item {
+      padding: 10px 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      cursor: pointer; transition: background 0.2s; display: flex; flex-direction: column; gap: 4px;
+    }
+    .support-topic-item:hover, .support-topic-item.active { background: rgba(37, 99, 235, 0.25); }
+    .support-topic-title { font-size: 0.78rem; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    
+    .support-topic-status { font-size: 0.62rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; align-self: flex-start; text-transform: uppercase; }
+    .status-pending { background: rgba(245, 158, 11, 0.2); color: var(--amber); border: 1px solid rgba(245, 158, 11, 0.4); }
+    .status-accepted { background: rgba(16, 185, 129, 0.2); color: var(--emerald); border: 1px solid rgba(16, 185, 129, 0.4); }
+    .status-closed { background: rgba(244, 63, 94, 0.2); color: var(--rose); border: 1px solid rgba(244, 63, 94, 0.4); }
+
+    .support-main-chat { flex: 1; display: flex; flex-direction: column; background: rgba(3, 7, 18, 0.5); overflow: hidden; }
+    .support-chat-header { padding: 10px; border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.8); }
+    .support-messages-box { flex: 1; padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+    .support-input-area { padding: 8px; border-top: 1px solid var(--card-border); background: rgba(15, 23, 42, 0.9); display: flex; gap: 6px; }
+
+    .sup-msg-item { padding: 8px 12px; border-radius: 12px; font-size: 0.8rem; line-height: 1.4; max-width: 88%; word-break: break-word; }
+    .sup-msg-item.user { background: rgba(37, 99, 235, 0.25); border: 1px solid rgba(37, 99, 235, 0.4); align-self: flex-end; color: #fff; }
+    .sup-msg-item.admin { background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); align-self: flex-start; color: #fff; }
 
     .lgs-countdown-card {
       background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(37, 99, 235, 0.4);
@@ -187,11 +246,27 @@
     .chat-input-wrapper {
       background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px); border: 1px solid var(--card-border);
       border-radius: 20px; padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0;
+      position: relative;
     }
 
     .input-row { display: flex; gap: 6px; align-items: center; }
     .input-row input[type="text"] { flex: 1; background: transparent; border: none; color: #fff; font-size: 0.9rem; outline: none; padding: 8px 4px; }
     .input-row input[type="text"]::placeholder { color: var(--text-muted); }
+
+    .attach-menu-wrapper { position: relative; display: inline-block; }
+    .attach-popover {
+      position: absolute; bottom: 48px; left: 0; background: rgba(15, 23, 42, 0.96);
+      border: 1px solid var(--card-border); border-radius: 16px; padding: 6px;
+      display: none; flex-direction: column; gap: 4px; backdrop-filter: blur(20px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 100; min-width: 160px;
+    }
+    .attach-popover.active { display: flex; }
+    .attach-opt-btn {
+      background: transparent; border: none; color: #fff; padding: 10px 12px;
+      border-radius: 12px; font-size: 0.8rem; font-weight: 700; text-align: left;
+      cursor: pointer; display: flex; align-items: center; gap: 10px; transition: background 0.2s;
+    }
+    .attach-opt-btn:hover { background: rgba(255,255,255,0.1); }
 
     .send-btn {
       background: linear-gradient(135deg, var(--ai-purple), #6d28d9); color: #fff; border: none;
@@ -203,11 +278,25 @@
     .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 16px; margin-bottom: 14px; backdrop-filter: blur(12px); }
     .card-title { font-size: 0.95rem; font-weight: 800; color: #fff; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
 
+    .news-card-wrapper { display: flex; flex-direction: column; gap: 14px; }
+    .news-card {
+      background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px; padding: 16px; position: relative; overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4); backdrop-filter: blur(10px); transition: transform 0.2s, border-color 0.2s;
+    }
+    .news-card:hover { border-color: rgba(37, 99, 235, 0.5); transform: translateY(-2px); }
+    .news-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .news-tag { font-size: 0.68rem; font-weight: 800; color: #38bdf8; text-transform: uppercase; background: rgba(56, 189, 248, 0.12); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.25); }
+    .news-head { font-size: 0.95rem; font-weight: 800; color: #fff; margin-bottom: 8px; line-height: 1.35; }
+    .news-img { width: 100%; max-height: 220px; object-fit: cover; border-radius: 12px; margin: 10px 0; border: 1px solid var(--card-border); }
+    .news-body { font-size: 0.82rem; color: #cbd5e1; line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
+    .news-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .news-date { font-size: 0.68rem; color: var(--text-muted); font-weight: 600; }
+
     .wa-banner { background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 95, 70, 0.3)); border: 1px solid var(--emerald); border-radius: 16px; padding: 14px; margin-bottom: 14px; text-align: center; }
     .wa-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--emerald); color: #000; font-weight: 900; font-size: 0.82rem; padding: 10px 16px; border-radius: 12px; text-decoration: none; margin-top: 10px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
 
     .pomo-display { text-align: center; margin: 16px 0; }
-    .pomo-time { font-size: 3.2rem; font-weight: 900; letter-spacing: 2px; color: var(--emerald); text-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
     .pomo-status { font-size: 0.82rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; }
     .pomo-controls { display: flex; gap: 8px; justify-content: center; margin-bottom: 12px; }
     .pomo-btn { padding: 10px 20px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: all 0.2s; font-size: 0.85rem; }
@@ -216,35 +305,29 @@
     .pomo-btn-reset { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid var(--card-border); }
     .pomo-badge-box { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 12px; text-align: center; }
 
-    .news-item { border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; margin-bottom: 12px; position: relative; }
-    .news-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .news-tag { font-size: 0.65rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 4px; display: inline-block; background: rgba(37, 99, 235, 0.15); padding: 2px 8px; border-radius: 6px; }
-    .news-head { font-size: 0.9rem; font-weight: 800; color: #fff; margin-bottom: 6px; }
-    .news-img { width: 100%; max-height: 280px; object-fit: cover; border-radius: 12px; margin: 8px 0; display: block; border: 1px solid var(--card-border); }
-    .news-body { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
-    .news-date { font-size: 0.65rem; color: var(--text-muted); margin-top: 6px; text-align: right; }
-    .news-del-btn { position: absolute; top: 0; right: 0; background: rgba(244,63,94,0.2); color: #f43f5e; border: none; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; cursor: pointer; font-weight: 700; }
-
     .admin-form-group { margin-bottom: 12px; text-align: left; }
     .admin-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; display: block; }
     .admin-input, .admin-textarea { width: 100%; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.04); color: #fff; outline: none; font-size: 0.85rem; }
     .admin-textarea { height: 80px; resize: none; }
     .admin-btn-action { width: 100%; background: linear-gradient(135deg, var(--amber), #b45309); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 0.88rem; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); margin-top: 4px; }
 
+    /* ALT GEZİNTİ VE SEKMELERİN BELİRGİN STİL İYİLEŞTİRMELERİ */
     nav {
-      position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
-      background: rgba(3, 7, 18, 0.94); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-      border-top: 1px solid var(--card-border); display: flex; padding: 4px 4px; z-index: 100;
+      position: absolute; bottom: 0; left: 0; right: 0; height: 62px;
+      background: rgba(3, 7, 18, 0.96); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+      border-top: 1px solid var(--card-border); display: flex; align-items: center; justify-content: space-around; padding: 2px 2px; z-index: 100;
     }
 
     .nav-btn {
-      background: transparent; border: none; color: var(--text-muted); padding: 4px 2px; border-radius: 12px;
-      font-size: 0.65rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 2px; flex: 1; cursor: pointer; transition: all 0.2s;
+      background: transparent; border: none; color: #94a3b8; padding: 4px 1px; border-radius: 10px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 3px; flex: 1; cursor: pointer; transition: all 0.2s; position: relative; min-width: 0;
     }
-    .nav-btn.active { color: #fff; background: rgba(255,255,255,0.08); }
-    .nav-btn.active .nav-icon { transform: translateY(-1px); color: var(--primary); }
-    .nav-icon { font-size: 1.1rem; transition: transform 0.2s; }
+    .nav-btn.active { color: #ffffff; background: rgba(255,255,255,0.08); }
+    .nav-btn.active .nav-icon { transform: translateY(-1px); color: #38bdf8; }
+    .nav-btn.active .nav-text { color: #38bdf8; font-weight: 800; }
+    .nav-icon { font-size: 1.15rem; transition: transform 0.2s; line-height: 1; }
+    .nav-text { font-size: 0.62rem; font-weight: 700; color: #cbd5e1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: block; line-height: 1; }
 
     .modal {
       position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 300; display: flex;
@@ -266,6 +349,19 @@
 
     .modal-btn { width: 100%; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 0.88rem; margin-top: 4px; box-shadow: 0 4px 15px var(--primary-glow); }
     .modal-btn.sec { background: transparent; border: 1px solid var(--card-border); box-shadow: none; margin-top: 8px; }
+
+    #crop-modal-card { max-width: 450px; width: 95%; }
+    .crop-container { width: 100%; max-height: 320px; overflow: hidden; margin: 12px 0; background: #000; border-radius: 12px; }
+    #crop-image { max-width: 100%; }
+
+    /* Canlı Yazma Efekti */
+    .streaming-cursor {
+      display: inline-block;
+      color: var(--ai-purple);
+      font-weight: 800;
+      animation: blink 0.8s infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
   </style>
 
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -280,7 +376,7 @@
       <div class="brand-logo">IP</div>
       <div>
         <div class="brand-title">İMAN POWER</div>
-        <div class="brand-sub">AI EĞİTİM & DERS PORTALI</div>
+        <div class="brand-sub">AI EĞİTİM & DERS PORTAL</div>
       </div>
     </div>
 
@@ -329,11 +425,43 @@
       <div class="chat-input-wrapper">
         <div id="image-preview-badge" style="display:none; font-size:0.75rem; color:var(--emerald); padding:2px 6px; font-weight:700;"></div>
         <div class="input-row">
-          <input type="file" id="ai-image-input" accept="image/*" style="display:none;" onchange="handleImageSelect(this)">
-          <button type="button" onclick="document.getElementById('ai-image-input').click()" class="hdr-btn" style="height:38px; width:38px; flex-shrink:0;" title="Soru / Görsel Yükle">📷</button>
+          <input type="file" id="ai-image-input" accept="image/*" style="display:none;" onchange="handleFileSelect(this)">
+          <input type="file" id="ai-pdf-input" accept=".pdf,application/pdf" style="display:none;" onchange="handleFileSelect(this)">
+
+          <div class="attach-menu-wrapper">
+            <button type="button" onclick="toggleAttachmentMenu(event)" class="hdr-btn" style="height:38px; width:38px; flex-shrink:0;" title="Ekle (Görsel / PDF)">➕</button>
+            <div id="attachment-popover" class="attach-popover">
+              <button type="button" class="attach-opt-btn" onclick="triggerFileInput('ai-image-input')">📷 Fotoğraf / Kamera</button>
+              <button type="button" class="attach-opt-btn" onclick="triggerFileInput('ai-pdf-input')">📄 PDF Belgesi</button>
+            </div>
+          </div>
+
           <button type="button" id="mic-btn" onclick="toggleSpeechToText()" class="hdr-btn" style="height:38px; width:38px; flex-shrink:0;" title="Sesle Soru Sor">🎙️</button>
-          <input type="text" id="ai-input" placeholder="Soru sorun, fotoğraf ekleyin veya sesle konuşun..." onkeypress="if(event.key==='Enter') askAI()">
+          <input type="text" id="ai-input" placeholder="Soru sorun, PDF/fotoğraf ekleyin veya sesle konuşun..." onkeypress="if(event.key==='Enter') askAI()">
           <button class="send-btn" onclick="askAI()">Gönder</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- DESTEK SİSTEMİ SEKSİYONU -->
+    <section id="sec-support" class="tab-section">
+      <div class="card" style="border-color: rgba(244, 63, 94, 0.4); margin-bottom:10px;">
+        <div class="card-title" style="color:var(--rose);">🎧 CANLI DESTEK MERKEZİ</div>
+        <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.5; margin-bottom:10px;">
+          Yönetici ile doğrudan iletişim kurabilirsiniz. Destek talebiniz yönetici tarafından kabul edildikten sonra canlı sohbet aktif olur.
+        </p>
+        <button class="admin-btn-action" style="background:linear-gradient(135deg, var(--rose), #be123c); font-size:0.82rem;" onclick="openNewSupportModal()">➕ Yeni Destek Talebi Aç</button>
+      </div>
+
+      <div class="support-layout">
+        <div class="support-sidebar">
+          <div class="support-sidebar-header">Konular</div>
+          <div id="user-support-topic-list" class="support-topic-list"></div>
+        </div>
+        <div class="support-main-chat" id="user-support-chat-pane">
+          <div style="display:flex; justify-content:center; align-items:center; height:100%; font-size:0.78rem; color:var(--text-muted); padding:10px; text-align:center;">
+            Soldaki listeden bir destek konusu seçiniz.
+          </div>
         </div>
       </div>
     </section>
@@ -342,22 +470,10 @@
       <div class="lgs-countdown-card">
         <div class="lgs-title">🎯 HEDEF SINAV GERİ SAYIMI 🎯</div>
         <div class="neon-timer">
-          <div class="timer-box">
-            <div class="timer-num" id="lgs-days">00</div>
-            <div class="timer-label">GÜN</div>
-          </div>
-          <div class="timer-box">
-            <div class="timer-num" id="lgs-hours">00</div>
-            <div class="timer-label">SAAT</div>
-          </div>
-          <div class="timer-box">
-            <div class="timer-num" id="lgs-mins">00</div>
-            <div class="timer-label">DK</div>
-          </div>
-          <div class="timer-box">
-            <div class="timer-num" id="lgs-secs">00</div>
-            <div class="timer-label">SN</div>
-          </div>
+          <div class="timer-box"><div class="timer-num" id="lgs-days">00</div><div class="timer-label">GÜN</div></div>
+          <div class="timer-box"><div class="timer-num" id="lgs-hours">00</div><div class="timer-label">SAAT</div></div>
+          <div class="timer-box"><div class="timer-num" id="lgs-mins">00</div><div class="timer-label">DK</div></div>
+          <div class="timer-box"><div class="timer-num" id="lgs-secs">00</div><div class="timer-label">SN</div></div>
         </div>
       </div>
 
@@ -413,10 +529,11 @@
     </section>
 
     <section id="sec-news" class="tab-section">
-      <div class="card">
-        <div class="card-title">📢 DUYURU VE DERS BİLGİLENDİRMELERİ</div>
-        <div id="news-list-container"></div>
+      <div style="margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-size:1rem; font-weight:900; color:#fff;">📢 DUYURU VE BİLGİLENDİRMELER</h3>
+        <span style="font-size:0.72rem; color:var(--text-muted); font-weight:700;">Güncel Haberler</span>
       </div>
+      <div id="news-list-container" class="news-card-wrapper"></div>
     </section>
 
     <section id="sec-about" class="tab-section">
@@ -455,7 +572,25 @@
     <section id="sec-admin" class="tab-section">
       <div class="card" style="border-color:var(--amber);">
         <div class="card-title" style="color:var(--amber);">👑 YÖNETİCİ & ADMIN PANELİ</div>
-        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:14px;">Portal İçeriği ve Sınav Tarihi Yönetimi</p>
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:14px;">Portal İçeriği, Sınav Tarihi ve Oyuncu Destek Yönetimi</p>
+
+        <div style="border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px; margin-bottom:14px;">
+          <h4 style="color:var(--rose); font-size:0.88rem; margin-bottom:10px; display:flex; justify-content:space-between;">
+            <span>🎧 Oyuncu Destek Sohbetleri</span>
+          </h4>
+          
+          <div class="support-layout">
+            <div class="support-sidebar">
+              <div class="support-sidebar-header">Talepler</div>
+              <div id="admin-support-topic-list" class="support-topic-list"></div>
+            </div>
+            <div class="support-main-chat" id="admin-support-chat-pane">
+              <div style="display:flex; justify-content:center; align-items:center; height:100%; font-size:0.78rem; color:var(--text-muted); padding:10px; text-align:center;">
+                Soldaki listeden incelemek veya yanıtlamak istediğiniz talebi seçiniz.
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div style="border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px; margin-bottom:14px;">
           <h4 style="color:#fff; font-size:0.85rem; margin-bottom:8px;">🎯 Hedef Sınav Tarihini Değiştir</h4>
@@ -471,7 +606,7 @@
           
           <div class="admin-form-group">
             <label class="admin-label">Başlık</label>
-            <input type="text" id="admin-news-title" class="admin-input" placeholder="Örn: Deneme Sınavı Takvimi Açıkladı">
+            <input type="text" id="admin-news-title" class="admin-input" placeholder="Örn: Deneme Sınavı Takvimi Açıklandı">
           </div>
 
           <div class="admin-form-group">
@@ -500,28 +635,59 @@
     </section>
   </main>
 
+  <!-- ALT GEZİNTİ VE İSİMLERİ İYİLEŞTİRİLMİŞ SEKMELER -->
   <nav>
     <button class="nav-btn active" onclick="switchTab('ai', this)">
       <span class="nav-icon">🤖</span>
-      <span>Ders Asistanı</span>
+      <span class="nav-text">Asistan</span>
+    </button>
+    <button class="nav-btn" id="nav-support-btn" onclick="switchTab('support', this)">
+      <span class="nav-icon">🎧</span>
+      <span class="nav-text">Destek</span>
     </button>
     <button class="nav-btn" onclick="switchTab('lgs', this)">
       <span class="nav-icon">🎯</span>
-      <span>Sınav Sayaç</span>
+      <span class="nav-text">Sınav</span>
     </button>
     <button class="nav-btn" onclick="switchTab('pomo', this)">
       <span class="nav-icon">⏱️</span>
-      <span>Pomodoro</span>
+      <span class="nav-text">Pomodoro</span>
     </button>
     <button class="nav-btn" onclick="switchTab('news', this)">
       <span class="nav-icon">📢</span>
-      <span>Duyurular</span>
+      <span class="nav-text">Duyuru</span>
     </button>
     <button class="nav-btn" onclick="switchTab('about', this)">
       <span class="nav-icon">ℹ️</span>
-      <span>Kurumsal</span>
+      <span class="nav-text">Kurumsal</span>
     </button>
   </nav>
+
+  <!-- YENİ DESTEK TALEBİ MODALI -->
+  <div id="new-support-modal" class="modal">
+    <div class="modal-card">
+      <div class="modal-title" style="color:var(--rose);">🎧 YENİ DESTEK TALEBİ</div>
+      <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:12px;">Destek amacınızı ve sorununuzu detaylıca yazınız.</p>
+      
+      <input type="text" id="sup-subject" placeholder="Destek Konusu (Örn: Hesap Sorunu)" class="modal-input">
+      <textarea id="sup-intent" placeholder="Destek Niyeti ve Detaylı Açıklamanız..." class="modal-input" style="height:90px; resize:none;"></textarea>
+      
+      <button class="modal-btn" style="background:var(--rose);" onclick="createNewSupportTicket()">Talebi Gönder 🚀</button>
+      <button class="modal-btn sec" onclick="closeNewSupportModal()">İptal</button>
+    </div>
+  </div>
+
+  <div id="crop-modal" class="modal">
+    <div class="modal-card" id="crop-modal-card">
+      <div class="modal-title" style="color:var(--emerald);">✂️ Soruyu Kırpın</div>
+      <p style="font-size:0.75rem; color:var(--text-muted);">Görseldeki sadece soru kısmını seçerek AI'nın daha hızlı ve net çözmesini sağlayın.</p>
+      <div class="crop-container">
+        <img id="crop-image" src="" alt="Kırpılacak Görsel">
+      </div>
+      <button class="modal-btn" style="background:var(--emerald); color:#000;" onclick="applyCrop()">✂️ Kırp ve AI'ya Hazırla</button>
+      <button class="modal-btn sec" onclick="cancelCrop()">İptal</button>
+    </div>
+  </div>
 
   <div id="admin-auth-modal" class="modal">
     <div class="modal-card">
@@ -587,6 +753,10 @@
   let currentUser = null;
   let activeChatId = null;
   let allUserChats = {};
+  let userSupportTickets = {};
+  let allSupportTickets = {};
+  let activeUserTicketId = null;
+  let activeAdminTicketId = null;
   let isAdminAuthenticated = false;
 
   let pomoWorkMinutes = 25;
@@ -596,12 +766,33 @@
   let isPomoBreak = false;
   let pomoCountToday = 0;
   let pomoMinutesToday = 0;
+  let lastRecordedElapsedMin = 0;
 
+  let cropper = null;
+  let pendingCroppedImageBase64 = null;
   let lgsTargetTimestamp = new Date("2027-06-06T09:30:00").getTime();
 
   let recognition = null;
   let isRecording = false;
-  let currentSpeakingBtn = null;
+  let isAIRequestRunning = false;
+
+  if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+
+  function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    
+    const targetSec = document.getElementById(`sec-${tabId}`);
+    if (targetSec) targetSec.classList.add('active');
+    
+    if (btn) btn.classList.add('active');
+
+    if (tabId === 'support' && currentUser) {
+      listenUserSupportTickets();
+    }
+  }
 
   auth.onAuthStateChanged((user) => {
     if (user) {
@@ -613,6 +804,8 @@
       listenLiveNews();
       listenLgsDate();
       loadPomodoroStats();
+      restorePomodoroState();
+      listenUserSupportTickets();
     } else {
       currentUser = null;
       document.getElementById('auth-modal').classList.add('active');
@@ -622,9 +815,7 @@
   function listenLgsDate() {
     db.ref('config/lgsTargetDate').on('value', (snapshot) => {
       const val = snapshot.val();
-      if (val) {
-        lgsTargetTimestamp = new Date(val).getTime();
-      }
+      if (val) lgsTargetTimestamp = new Date(val).getTime();
       updateLGSCountdown();
     });
   }
@@ -682,21 +873,41 @@
   function startPomodoro() {
     if (isPomoRunning) return;
 
-    if (pomoSecondsLeft <= 0) {
-      pomoSecondsLeft = (isPomoBreak ? 5 : pomoWorkMinutes) * 60;
+    const now = Date.now();
+    let endTime = localStorage.getItem('pomo_endTime');
+
+    if (!endTime || pomoSecondsLeft <= 0) {
+      endTime = now + pomoSecondsLeft * 1000;
+      localStorage.setItem('pomo_endTime', endTime);
+      localStorage.setItem('pomo_totalSecs', isPomoBreak ? 5 * 60 : pomoWorkMinutes * 60);
+      localStorage.setItem('pomo_isBreak', isPomoBreak ? '1' : '0');
+      lastRecordedElapsedMin = 0;
     }
 
     isPomoRunning = true;
+    localStorage.setItem('pomo_isRunning', '1');
+    runTimerLoop();
+  }
+
+  function runTimerLoop() {
     clearInterval(pomoTimer);
     pomoTimer = setInterval(() => {
-      pomoSecondsLeft--;
-      updatePomoDisplay();
-      if (pomoSecondsLeft <= 0) {
+      const endTime = parseInt(localStorage.getItem('pomo_endTime') || '0');
+      const totalSecs = parseInt(localStorage.getItem('pomo_totalSecs') || (pomoWorkMinutes * 60));
+      const now = Date.now();
+      const diffSecs = Math.round((endTime - now) / 1000);
+
+      if (diffSecs <= 0) {
+        pomoSecondsLeft = 0;
+        updatePomoDisplay();
         clearInterval(pomoTimer);
         isPomoRunning = false;
+        localStorage.removeItem('pomo_isRunning');
+        localStorage.removeItem('pomo_endTime');
+
         if (!isPomoBreak) {
           alert(`🎉 Tebrikler! ${pomoWorkMinutes} dakikalık odaklanma oturumunu tamamladınız. 5 dakika mola zamanı.`);
-          incrementPomodoroCount(pomoWorkMinutes);
+          incrementPomodoroCount(Math.max(0, pomoWorkMinutes - lastRecordedElapsedMin), true);
           isPomoBreak = true;
           pomoSecondsLeft = 5 * 60;
           document.getElementById("pomo-mode-text").innerText = "☕ MOLA ZAMANI (5 DK)";
@@ -707,19 +918,63 @@
           document.getElementById("pomo-mode-text").innerText = "📚 ODAKLANMA ZAMANI (DERS)";
         }
         updatePomoDisplay();
+        return;
+      }
+
+      pomoSecondsLeft = diffSecs;
+      updatePomoDisplay();
+
+      if (!isPomoBreak) {
+        const elapsedSecs = totalSecs - diffSecs;
+        const currentElapsedMin = Math.floor(elapsedSecs / 60);
+        if (currentElapsedMin > lastRecordedElapsedMin) {
+          const addedMins = currentElapsedMin - lastRecordedElapsedMin;
+          lastRecordedElapsedMin = currentElapsedMin;
+          incrementPomodoroCount(addedMins, false);
+        }
       }
     }, 1000);
   }
 
+  function restorePomodoroState() {
+    const isRunning = localStorage.getItem('pomo_isRunning') === '1';
+    const endTime = parseInt(localStorage.getItem('pomo_endTime') || '0');
+    isPomoBreak = localStorage.getItem('pomo_isBreak') === '1';
+
+    if (isRunning && endTime) {
+      const now = Date.now();
+      const diffSecs = Math.round((endTime - now) / 1000);
+      if (diffSecs > 0) {
+        pomoSecondsLeft = diffSecs;
+        if (isPomoBreak) {
+          document.getElementById("pomo-mode-text").innerText = "☕ MOLA ZAMANI (5 DK)";
+        }
+        startPomodoro();
+      } else {
+        localStorage.removeItem('pomo_isRunning');
+        localStorage.removeItem('pomo_endTime');
+      }
+    }
+  }
+
   function pausePomodoro() {
+    if (!isPomoRunning) return;
+    const endTime = Number(localStorage.getItem('pomo_endTime') || 0);
+    pomoSecondsLeft = Math.max(0, Math.ceil((endTime - Date.now()) / 1000));
     clearInterval(pomoTimer);
     isPomoRunning = false;
+    localStorage.removeItem('pomo_isRunning');
+    localStorage.removeItem('pomo_endTime');
+    updatePomoDisplay();
   }
 
   function resetPomodoro() {
     clearInterval(pomoTimer);
     isPomoRunning = false;
     isPomoBreak = false;
+    localStorage.removeItem('pomo_isRunning');
+    localStorage.removeItem('pomo_endTime');
+    lastRecordedElapsedMin = 0;
     pomoSecondsLeft = pomoWorkMinutes * 60;
     document.getElementById("pomo-mode-text").innerText = "📚 ODAKLANMA ZAMANI (DERS)";
     updatePomoDisplay();
@@ -753,10 +1008,10 @@
     });
   }
 
-  async function incrementPomodoroCount(workedMins) {
-    if (!currentUser) return;
+  async function incrementPomodoroCount(workedMins, isFullSession) {
+    if (!currentUser || workedMins <= 0) return;
     const todayKey = getTodayKey();
-    const newCount = pomoCountToday + 1;
+    const newCount = pomoCountToday + (isFullSession ? 1 : 0);
     const newMins = pomoMinutesToday + workedMins;
     await db.ref(`users/${currentUser.uid}/pomodoros/${todayKey}`).set({
       count: newCount,
@@ -807,8 +1062,8 @@
       isAdminAuthenticated = true;
       closeAdminModal();
       document.getElementById('admin-pass-input').value = '';
+      listenAdminSupportTickets();
       switchTab('admin', document.querySelector('.hdr-btn.admin-btn'));
-      listenLiveNews();
       alert("✅ Yönetici girişi başarılı.");
     } else {
       alert("❌ Hatalı yönetici parolası.");
@@ -834,9 +1089,7 @@
     let imageDataUrl = "";
     if (fileInput && fileInput.files && fileInput.files[0]) {
       const file = fileInput.files[0];
-      if (file.size > 3 * 1024 * 1024) {
-        return alert("Görsel boyutu 3MB'dan küçük olmalıdır.");
-      }
+      if (file.size > 3 * 1024 * 1024) return alert("Görsel boyutu 3MB'dan küçük olmalıdır.");
       try {
         imageDataUrl = await new Promise((resolve, reject) => {
           const reader = new FileReader();
@@ -844,18 +1097,12 @@
           reader.onerror = e => reject(e);
           reader.readAsDataURL(file);
         });
-      } catch(e) {
-        console.error("Görsel okuma hatası:", e);
-      }
+      } catch(e) {}
     }
 
     const newNewsRef = db.ref('news').push();
     await newNewsRef.set({
-      title: title,
-      tag: tag,
-      body: body,
-      image: imageDataUrl || "",
-      timestamp: Date.now()
+      title: title, tag: tag, body: body, image: imageDataUrl || "", timestamp: Date.now()
     });
 
     document.getElementById('admin-news-title').value = '';
@@ -885,14 +1132,12 @@
 
       if (!data) {
         newsList.innerHTML = `
-          <div class="news-item">
-            <div class="news-tag">⚡ DERS SİSTEMİ</div>
+          <div class="news-card">
+            <div class="news-card-header"><span class="news-tag">⚡ DERS SİSTEMİ</span></div>
             <div class="news-head">Yapay Zeka Ders Asistanı Aktif</div>
-            <div class="news-body">Sorularınızı metin yazarak, sesinizle konuşarak veya soru fotoğrafı yükleyerek sorabilirsiniz.</div>
+            <div class="news-body">Sorularınızı metin yazarak, sesinizle konuşarak, PDF veya soru fotoğrafı kırparak sorabilirsiniz.</div>
+            <div class="news-footer"><span class="news-date">Sistem Bildirimi</span></div>
           </div>`;
-        if (adminNewsList) {
-          adminNewsList.innerHTML = '<div style="font-size:0.75rem; color:var(--text-muted); text-align:center; padding:10px;">Henüz yayınlanmış bir duyuru bulunmuyor.</div>';
-        }
         return;
       }
 
@@ -900,17 +1145,19 @@
         const item = data[id];
         const dateStr = new Date(item.timestamp || Date.now()).toLocaleDateString('tr-TR', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
         const delBtnHTML = isAdminAuthenticated ? `<button class="news-del-btn" onclick="deleteNewsItem('${id}')">Sil 🗑️</button>` : '';
-        const imgHTML = item.image ? `<img src="${item.image}" class="news-img" alt="Görsel">` : '';
+        const imgHTML = item.image ? `<img src="${item.image}" class="news-img" alt="Duyuru Görseli">` : '';
 
         const div = document.createElement('div');
-        div.className = 'news-item';
+        div.className = 'news-card';
         div.innerHTML = `
-          ${delBtnHTML}
-          <div class="news-tag">${escapeHTML(item.tag)}</div>
-          <div class="news-head">${escapeHTML(item.title)}</div>
-          ${imgHTML}
+          <div class="news-card-header">
+            <span class="news-tag">${escapeHTML(item.tag)}</span>${delBtnHTML}
+          </div>
+          <div class="news-head">${escapeHTML(item.title)}</div>${imgHTML}
           <div class="news-body">${escapeHTML(item.body)}</div>
-          <div class="news-date">${dateStr}</div>
+          <div class="news-footer">
+            <span class="news-date">📅 ${dateStr}</span>
+          </div>
         `;
         newsList.appendChild(div);
 
@@ -920,13 +1167,303 @@
           adminItem.innerHTML = `
             <div style="overflow:hidden; flex:1;">
               <div style="font-size:0.8rem; font-weight:800; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHTML(item.title)}</div>
-              <div style="font-size:0.68rem; color:var(--text-muted); font-weight:600;">${escapeHTML(item.tag)} • ${dateStr}</div>
+              <div style="font-size:0.68rem; color:var(--text-muted); font-weight:600;">${escapeHTML(item.tag)} •${dateStr}</div>
             </div>
             <button onclick="deleteNewsItem('${id}')" style="background:rgba(244,63,94,0.2); color:#f43f5e; border:1px solid rgba(244,63,94,0.4); padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:800; cursor:pointer; flex-shrink:0;">Sil 🗑️</button>
           `;
           adminNewsList.appendChild(adminItem);
         }
       });
+    });
+  }
+
+  /* CANLI DESTEK SİSTEMİ */
+  function openNewSupportModal() {
+    document.getElementById('new-support-modal').classList.add('active');
+  }
+  function closeNewSupportModal() {
+    document.getElementById('new-support-modal').classList.remove('active');
+  }
+
+  async function createNewSupportTicket() {
+    if (!currentUser) return alert("Lütfen giriş yapınız.");
+
+    const subject = document.getElementById('sup-subject').value.trim();
+    const intent = document.getElementById('sup-intent').value.trim();
+
+    if (!subject || !intent) return alert("Lütfen konu ve destek niyetinizi tam doldurunuz.");
+
+    const oneHourAgo = Date.now() - (60 * 60 * 1000);
+    const recentTickets = Object.values(userSupportTickets).filter(t => t.createdAt > oneHourAgo);
+    
+    if (recentTickets.length >= 2) {
+      return alert("⚠️ Saatte en fazla 2 destek talebi açabilirsiniz. Lütfen daha sonra tekrar deneyiniz.");
+    }
+
+    const ticketId = 'sup_' + Date.now();
+    const newTicket = {
+      id: ticketId,
+      uid: currentUser.uid,
+      userName: currentUser.displayName || 'İsimsiz Öğrenci',
+      userEmail: currentUser.email || 'E-posta Yok',
+      subject: subject,
+      intent: intent,
+      status: 'pending',
+      createdAt: Date.now(),
+      unreadUser: false,
+      unreadAdmin: true
+    };
+
+    await db.ref(`supports/${ticketId}`).set(newTicket);
+
+    await db.ref(`support_messages/${ticketId}`).push({
+      sender: 'user',
+      text: `[TALEBİ AÇTI] ${intent}`,
+      time: Date.now()
+    });
+
+    document.getElementById('sup-subject').value = '';
+    document.getElementById('sup-intent').value = '';
+    closeNewSupportModal();
+    activeUserTicketId = ticketId;
+    alert("✅ Destek talebiniz oluşturuldu.");
+  }
+
+  function listenUserSupportTickets() {
+    if (!currentUser) return;
+    db.ref('supports').orderByChild('uid').equalTo(currentUser.uid).on('value', (snapshot) => {
+      userSupportTickets = snapshot.val() || {};
+      let hasUnreadMessage = false;
+
+      const topicListContainer = document.getElementById('user-support-topic-list');
+      if (!topicListContainer) return;
+      topicListContainer.innerHTML = '';
+
+      const keys = Object.keys(userSupportTickets).reverse();
+
+      if (keys.length === 0) {
+        topicListContainer.innerHTML = '<div style="font-size:0.72rem; color:var(--text-muted); text-align:center; padding:10px;">Talep Yok</div>';
+        document.getElementById('user-support-chat-pane').innerHTML = `
+          <div style="display:flex; justify-content:center; align-items:center; height:100%; font-size:0.78rem; color:var(--text-muted); padding:10px; text-align:center;">
+            Henüz bir destek talebiniz bulunmuyor.
+          </div>`;
+        return;
+      }
+
+      if (!activeUserTicketId || !userSupportTickets[activeUserTicketId]) {
+        activeUserTicketId = keys[0];
+      }
+
+      keys.forEach(id => {
+        const t = userSupportTickets[id];
+        if (t.unreadUser) hasUnreadMessage = true;
+
+        let statusBadge = '<span class="support-topic-status status-pending">Beklemede</span>';
+        if (t.status === 'accepted') statusBadge = '<span class="support-topic-status status-accepted">Açık</span>';
+        if (t.status === 'closed') statusBadge = '<span class="support-topic-status status-closed">Kapandı</span>';
+
+        const topicDiv = document.createElement('div');
+        topicDiv.className = `support-topic-item ${id === activeUserTicketId ? 'active' : ''}`;
+        topicDiv.onclick = () => {
+          activeUserTicketId = id;
+          listenUserSupportTickets();
+        };
+
+        topicDiv.innerHTML = `
+          <div class="support-topic-title">${escapeHTML(t.subject)}</div>${statusBadge}
+        `;
+        topicListContainer.appendChild(topicDiv);
+      });
+
+      renderUserChatPane(activeUserTicketId);
+
+      const navBtn = document.getElementById('nav-support-btn');
+      if (navBtn) {
+        if (hasUnreadMessage) navBtn.classList.add('support-pulse');
+        else navBtn.classList.remove('support-pulse');
+      }
+    });
+  }
+
+  function renderUserChatPane(ticketId) {
+    const pane = document.getElementById('user-support-chat-pane');
+    if (!pane || !ticketId || !userSupportTickets[ticketId]) return;
+
+    const t = userSupportTickets[ticketId];
+    let statusBadgeHTML = '<span class="support-badge-status status-pending">⌛ Beklemede</span>';
+    if (t.status === 'accepted') statusBadgeHTML = '<span class="support-badge-status status-accepted">🟢 Açık</span>';
+    if (t.status === 'closed') statusBadgeHTML = '<span class="support-badge-status status-closed">🔒 Kapandı</span>';
+
+    pane.innerHTML = `
+      <div class="support-chat-header">
+        <div style="overflow:hidden;">
+          <div style="font-size:0.82rem; font-weight:800; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHTML(t.subject)}</div>
+          <div style="font-size:0.68rem; color:var(--text-muted);">📌 Niyet: ${escapeHTML(t.intent)}</div>
+        </div>
+        <div>${statusBadgeHTML}</div>
+      </div>
+      <div id="user-msg-box-${ticketId}" class="support-messages-box"></div>
+      <div class="support-input-area">
+        ${t.status === 'accepted' ? `
+          <input type="text" id="user-sup-input-${ticketId}" class="admin-input" style="padding:6px 10px; font-size:0.8rem;" placeholder="Mesajınızı yazın..." onkeypress="if(event.key==='Enter') sendSupportMessage('${ticketId}', 'user')">
+          <button onclick="sendSupportMessage('${ticketId}', 'user')" style="background:var(--emerald); color:#000; border:none; padding:6px 12px; border-radius:10px; font-weight:800; font-size:0.78rem; cursor:pointer;">Gönder</button>
+        ` : (t.status === 'pending' ? `
+          <div style="font-size:0.72rem; color:var(--amber); text-align:center; width:100%; padding:4px;">💬 Yönetici destek talebini kabul edince sohbet aktif olacaktır.</div>
+        ` : `
+          <div style="font-size:0.72rem; color:var(--rose); text-align:center; width:100%; padding:4px; font-weight:700;">🔒 Bu destek talebi kapatılmıştır (Kapandı).</div>
+        `)}
+      </div>
+    `;
+
+    listenSupportMessages(ticketId, `user-msg-box-${ticketId}`, 'user');
+  }
+
+  function listenAdminSupportTickets() {
+    db.ref('supports').on('value', (snapshot) => {
+      allSupportTickets = snapshot.val() || {};
+      const topicListContainer = document.getElementById('admin-support-topic-list');
+      if (!topicListContainer) return;
+      topicListContainer.innerHTML = '';
+
+      const keys = Object.keys(allSupportTickets).reverse();
+
+      if (keys.length === 0) {
+        topicListContainer.innerHTML = '<div style="font-size:0.72rem; color:var(--text-muted); text-align:center; padding:10px;">Talep Yok</div>';
+        document.getElementById('admin-support-chat-pane').innerHTML = `
+          <div style="display:flex; justify-content:center; align-items:center; height:100%; font-size:0.78rem; color:var(--text-muted); padding:10px; text-align:center;">
+            Hiç destek talebi bulunmamaktadır.
+          </div>`;
+        return;
+      }
+
+      if (!activeAdminTicketId || !allSupportTickets[activeAdminTicketId]) {
+        activeAdminTicketId = keys[0];
+      }
+
+      keys.forEach(id => {
+        const t = allSupportTickets[id];
+        let statusBadge = '<span class="support-topic-status status-pending">Beklemede</span>';
+        if (t.status === 'accepted') statusBadge = '<span class="support-topic-status status-accepted">Açık</span>';
+        if (t.status === 'closed') statusBadge = '<span class="support-topic-status status-closed">Kapandı</span>';
+
+        const topicDiv = document.createElement('div');
+        topicDiv.className = `support-topic-item ${id === activeAdminTicketId ? 'active' : ''}`;
+        topicDiv.onclick = () => {
+          activeAdminTicketId = id;
+          listenAdminSupportTickets();
+        };
+
+        topicDiv.innerHTML = `
+          <div style="font-size:0.72rem; font-weight:800; color:var(--amber); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">👤 ${escapeHTML(t.userName)}</div>
+          <div class="support-topic-title">${escapeHTML(t.subject)}</div>${statusBadge}
+        `;
+        topicListContainer.appendChild(topicDiv);
+      });
+
+      renderAdminChatPane(activeAdminTicketId);
+    });
+  }
+
+  function renderAdminChatPane(ticketId) {
+    const pane = document.getElementById('admin-support-chat-pane');
+    if (!pane || !ticketId || !allSupportTickets[ticketId]) return;
+
+    const t = allSupportTickets[ticketId];
+    let statusBadgeHTML = '<span class="support-badge-status status-pending">⌛ Beklemede</span>';
+    if (t.status === 'accepted') statusBadgeHTML = '<span class="support-badge-status status-accepted">🟢 Sohbet Açık</span>';
+    if (t.status === 'closed') statusBadgeHTML = '<span class="support-badge-status status-closed">🔒 Kapandı</span>';
+
+    pane.innerHTML = `
+      <div class="support-chat-header">
+        <div style="overflow:hidden;">
+          <div style="font-size:0.82rem; font-weight:800; color:#fff;">👤 <span class="player-name-text">${escapeHTML(t.userName)}</span> (${escapeHTML(t.userEmail)})</div>
+          <div style="font-size:0.72rem; color:var(--text-muted);">📌 <strong>Konu:</strong> ${escapeHTML(t.subject)}</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          ${statusBadgeHTML}
+        </div>
+      </div>
+      <div style="font-size:0.72rem; color:var(--text-muted); padding:6px 10px; background:rgba(0,0,0,0.3); border-bottom:1px solid var(--card-border);">
+        📝 <strong>Niyet:</strong> ${escapeHTML(t.intent)}
+      </div>
+      
+      <div id="admin-msg-box-${ticketId}" class="support-messages-box"></div>
+
+      <div style="padding:6px 10px; background:rgba(15, 23, 42, 0.8); border-top:1px solid var(--card-border); display:flex; gap:6px; flex-wrap:wrap; justify-content:space-between; align-items:center;">
+        <div style="display:flex; gap:6px;">
+          ${t.status === 'pending' ? `<button onclick="updateSupportStatus('${ticketId}', 'accepted')" style="background:var(--emerald); color:#000; border:none; padding:4px 8px; border-radius:6px; font-weight:800; font-size:0.72rem; cursor:pointer;">✅ Kabul Et & Aç</button>` : ''}
+          ${t.status !== 'closed' ? `<button onclick="updateSupportStatus('${ticketId}', 'closed')" style="background:rgba(244,63,94,0.2); color:#f43f5e; border:1px solid rgba(244,63,94,0.4); padding:4px 8px; border-radius:6px; font-weight:800; font-size:0.72rem; cursor:pointer;">🔒 Talebi Kapat (Kapandı)</button>` : ''}
+        </div>
+      </div>
+
+      <div class="support-input-area">
+        ${t.status === 'accepted' ? `
+          <input type="text" id="admin-sup-input-${ticketId}" class="admin-input" style="padding:6px 10px; font-size:0.8rem;" placeholder="Yanıt yazın..." onkeypress="if(event.key==='Enter') sendSupportMessage('${ticketId}', 'admin')">
+          <button onclick="sendSupportMessage('${ticketId}', 'admin')" style="background:var(--primary); color:#fff; border:none; padding:6px 12px; border-radius:10px; font-weight:800; font-size:0.78rem; cursor:pointer;">Gönder</button>
+        ` : (t.status === 'pending' ? `
+          <div style="font-size:0.72rem; color:var(--amber); text-align:center; width:100%; padding:4px;">💬 Sohbeti başlatmak için "Kabul Et" butonuna basınız.</div>
+        ` : `
+          <div style="font-size:0.72rem; color:var(--rose); text-align:center; width:100%; padding:4px; font-weight:700;">🔒 Bu destek talebi kapatılmıştır (Kapandı).</div>
+        `)}
+      </div>
+    `;
+
+    listenSupportMessages(ticketId, `admin-msg-box-${ticketId}`, 'admin');
+  }
+
+  async function updateSupportStatus(ticketId, status) {
+    await db.ref(`supports/${ticketId}`).update({
+      status: status,
+      unreadUser: true
+    });
+  }
+
+  async function sendSupportMessage(ticketId, senderRole) {
+    const inputEl = document.getElementById(senderRole === 'admin' ? `admin-sup-input-${ticketId}` : `user-sup-input-${ticketId}`);
+    if (!inputEl) return;
+    const txt = inputEl.value.trim();
+    if (!txt) return;
+
+    await db.ref(`support_messages/${ticketId}`).push({
+      sender: senderRole,
+      text: txt,
+      time: Date.now()
+    });
+
+    await db.ref(`supports/${ticketId}`).update({
+      unreadUser: senderRole === 'admin',
+      unreadAdmin: senderRole === 'user'
+    });
+
+    inputEl.value = '';
+  }
+
+  function listenSupportMessages(ticketId, containerId, viewerRole) {
+    db.ref(`support_messages/${ticketId}`).on('value', (snap) => {
+      const box = document.getElementById(containerId);
+      if (!box) return;
+      box.innerHTML = '';
+      const msgs = snap.val() || {};
+      const ticketObj = (viewerRole === 'admin' ? allSupportTickets : userSupportTickets)[ticketId] || {};
+      const playerName = ticketObj.userName || 'Öğrenci';
+
+      Object.values(msgs).forEach(m => {
+        const item = document.createElement('div');
+        item.className = `sup-msg-item ${m.sender}`;
+        
+        if (m.sender === 'admin') {
+          item.innerHTML = `<span class="admin-glow-text">👑 Admin</span>: ${escapeHTML(m.text)}`;
+        } else {
+          item.innerHTML = `👤 <span class="player-name-text">${escapeHTML(playerName)}</span>:${escapeHTML(m.text)}`;
+        }
+        
+        box.appendChild(item);
+      });
+      box.scrollTop = box.scrollHeight;
+
+      if (viewerRole === 'user' && document.getElementById('sec-support').classList.contains('active')) {
+        db.ref(`supports/${ticketId}`).update({ unreadUser: false });
+      }
     });
   }
 
@@ -1007,12 +1544,7 @@
     toggleDrawer(false);
     document.getElementById('ai-chat-box').innerHTML = '';
     const name = currentUser?.displayName || 'Öğrencimiz';
-    renderAIMessage(`Merhaba **${name}**! Ders ve sınav asistanınız hazır.
-
-📷 **Soru Çözümü:** Çözemediğiniz soruların fotoğrafını ekleyin, net ve pratik bir şekilde çözelim.
-🎙️ **Sesli Soru:** Sorularınızı 🎙️ butonuna basarak iletebilirsiniz.
-
-Hangi konu veya soruyla başlıyoruz?`);
+    renderAIMessage(`Merhaba **${name}**! Ders asistanınız hazır. Sorunuzu yazabilir veya görsel/PDF yükleyebilirsiniz.`);
   }
 
   function switchChat(chatId) {
@@ -1052,14 +1584,7 @@ Hangi konu veya soruyla başlıyoruz?`);
   function parseMarkdown(text) {
     if (!text) return '';
 
-    let cleanText = text
-      .replace(/\\text\{([^}]+)\}/g, '$1')
-      .replace(/\\lfloor/g, '⌊')
-      .replace(/\\rfloor/g, '⌋')
-      .replace(/\\left/g, '')
-      .replace(/\\right/g, '');
-
-    let lines = cleanText.split('\n');
+    let lines = text.split('\n');
     let inTable = false;
     let tableHTML = '';
     let resultLines = [];
@@ -1116,7 +1641,7 @@ Hangi konu veya soruyla başlıyoruz?`);
         </div>
         <div class="ai-msg-content">${formattedText}</div>
         <div class="msg-toolbar">
-          <button class="msg-tool-btn tts-btn" onclick="toggleTTS(this)">🔊 Dinle</button>
+          <button class="msg-tool-btn tts-btn" onclick="playMaleTTS(this)">🔊 Dinle</button>
           <button class="msg-tool-btn" onclick="copyMsgText(this)">📋 Kopyala</button>
         </div>
       </div>
@@ -1154,49 +1679,164 @@ Hangi konu veya soruyla başlıyoruz?`);
     setTimeout(() => btn.innerText = '📋 Kopyala', 2000);
   }
 
-  function toggleTTS(btn) {
-    if (!('speechSynthesis' in window)) {
-      return alert("Tarayıcınız sesli okuma özelliğini desteklememektedir.");
-    }
+  function cleanTextForSpeech(text) {
+    if (!text) return '';
+    let clean = text;
+    clean = clean.replace(/<[^>]*>?/gm, ' ');
+    clean = clean.replace(/\$\$/g, ' ').replace(/\$/g, ' ').replace(/\\\(|\\\)|\\\[|\\\]/g, ' ');
+    clean = clean.replace(/[\*\#\_~`|]/g, ' ');
+    clean = clean.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '');
+    clean = clean.replace(/[▶⏸🔄⚡🎯📐🔬📝⚽👑📄📷💬📌✍️✅📋📜✕🔍🎧]/g, '');
+    clean = clean.replace(/\s+/g, ' ').trim();
+    return clean;
+  }
 
-    if (window.speechSynthesis.speaking && currentSpeakingBtn === btn) {
-      window.speechSynthesis.cancel();
-      btn.innerText = '🔊 Dinle';
-      btn.classList.remove('tts-active');
-      currentSpeakingBtn = null;
-      return;
+  function playMaleTTS(btn) {
+    if (!('speechSynthesis' in window)) {
+      return alert("Tarayıcınız ses okuma özelliğini desteklemiyor.");
     }
 
     if (window.speechSynthesis.speaking) {
       window.speechSynthesis.cancel();
-      if (currentSpeakingBtn) {
-        currentSpeakingBtn.innerText = '🔊 Dinle';
-        currentSpeakingBtn.classList.remove('tts-active');
-      }
+      btn.innerText = '🔊 Dinle';
+      btn.classList.remove('tts-active');
+      return;
     }
 
     const card = btn.closest('.ai-msg');
     const rawText = card.querySelector('.ai-msg-content').innerText;
+    const cleanText = cleanTextForSpeech(rawText);
 
-    if (!rawText.trim()) return;
+    if (!cleanText) return;
 
-    const utterance = new SpeechSynthesisUtterance(rawText);
+    const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.lang = 'tr-TR';
+
+    const voices = window.speechSynthesis.getVoices();
+    const trVoices = voices.filter(v => v.lang.includes('tr') || v.lang.includes('TR'));
+    
+    let maleVoice = trVoices.find(v => 
+      v.name.toLowerCase().includes('male') || 
+      v.name.toLowerCase().includes('erkek') || 
+      v.name.toLowerCase().includes('cem') || 
+      v.name.toLowerCase().includes('ahmet')
+    );
+
+    if (!maleVoice && trVoices.length > 0) maleVoice = trVoices[0];
+    if (maleVoice) utterance.voice = maleVoice;
+
+    utterance.pitch = 0.88;
     utterance.rate = 1.0;
 
     utterance.onstart = () => {
       btn.innerText = '⏸️ Durdur';
       btn.classList.add('tts-active');
-      currentSpeakingBtn = btn;
     };
 
     utterance.onend = utterance.onerror = () => {
       btn.innerText = '🔊 Dinle';
       btn.classList.remove('tts-active');
-      currentSpeakingBtn = null;
     };
 
     window.speechSynthesis.speak(utterance);
+  }
+
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
+  }
+
+  function toggleAttachmentMenu(e) {
+    e.stopPropagation();
+    const popover = document.getElementById('attachment-popover');
+    popover.classList.toggle('active');
+  }
+
+  function triggerFileInput(inputId) {
+    document.getElementById('attachment-popover').classList.remove('active');
+    document.getElementById(inputId).click();
+  }
+
+  document.addEventListener('click', (e) => {
+    const popover = document.getElementById('attachment-popover');
+    if (popover && !popover.contains(e.target)) {
+      popover.classList.remove('active');
+    }
+  });
+
+  async function handleFileSelect(input) {
+    if (!input.files || !input.files[0]) return;
+
+    const file = input.files[0];
+    const imageEl = document.getElementById('crop-image');
+
+    if (file.type === 'application/pdf') {
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        const page = await pdf.getPage(1);
+        const viewport = page.getViewport({ scale: 3.0 }); // Yüksek kaliteli 3.0x net okuma ölçeği
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+        imageEl.src = canvas.toDataURL('image/png', 1.0);
+        openCropModal();
+      } catch (e) {
+        alert("PDF dosyası okunamadı: " + e.message);
+      }
+    } else {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        imageEl.src = e.target.result;
+        openCropModal();
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function openCropModal() {
+    document.getElementById('crop-modal').classList.add('active');
+    const imageEl = document.getElementById('crop-image');
+
+    if (cropper) cropper.destroy();
+    cropper = new Cropper(imageEl, {
+      viewMode: 1,
+      autoCropArea: 0.85,
+      responsive: true
+    });
+  }
+
+  function applyCrop() {
+    if (!cropper) return;
+    const canvas = cropper.getCroppedCanvas({
+      maxWidth: 1600,
+      maxHeight: 1600
+    });
+
+    pendingCroppedImageBase64 = canvas.toDataURL('image/jpeg', 0.95);
+
+    const badge = document.getElementById('image-preview-badge');
+    badge.innerText = `✂️ Soru Kırpıldı & Yüksek Kalitede Hazırlandı`;
+    badge.style.display = 'block';
+
+    closeCropModal();
+  }
+
+  function cancelCrop() {
+    closeCropModal();
+    document.getElementById('ai-image-input').value = '';
+    document.getElementById('ai-pdf-input').value = '';
+  }
+
+  function closeCropModal() {
+    document.getElementById('crop-modal').classList.remove('active');
+    if (cropper) {
+      cropper.destroy();
+      cropper = null;
+    }
   }
 
   function toggleSpeechToText() {
@@ -1232,10 +1872,7 @@ Hangi konu veya soruyla başlıyoruz?`);
       inputEl.value = transcript;
     };
 
-    recognition.onerror = (e) => {
-      console.error("Ses tanıma hatası:", e.error);
-      stopRecordingUI();
-    };
+    recognition.onerror = () => { stopRecordingUI(); };
 
     recognition.onend = () => {
       stopRecordingUI();
@@ -1244,142 +1881,180 @@ Hangi konu veya soruyla başlıyoruz?`);
       }
     };
 
-    try {
-      recognition.start();
-    } catch (err) {
-      stopRecordingUI();
-    }
+    try { recognition.start(); } catch (err) { stopRecordingUI(); }
 
     function stopRecordingUI() {
       isRecording = false;
       micBtn.classList.remove('mic-active');
-      inputEl.placeholder = "Soru sorun, fotoğraf ekleyin veya sesle konuşun...";
+      inputEl.placeholder = "Soru sorun, PDF/fotoğraf ekleyin veya sesle konuşun...";
     }
   }
 
-  function convertFileToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
-    });
+  function sendQuickPrompt(promptText) {
+    document.getElementById('ai-input').value = promptText;
+    askAI();
   }
 
-  function handleImageSelect(input) {
-    const badge = document.getElementById('image-preview-badge');
-    if (input.files && input.files[0]) {
-      badge.innerText = `📷 Yüklenen Görsel: ${input.files[0].name}`;
-      badge.style.display = 'block';
-    } else {
-      badge.style.display = 'none';
-    }
-  }
-
+  /* CANLI AKIŞLI (STREAMING), GEÇMİŞ HAFIZALI VE %100 DOĞRU AI SORU ÇÖZÜM FONKSİYONU */
   async function askAI() {
     const inputEl = document.getElementById('ai-input');
-    const imageInput = document.getElementById('ai-image-input');
-    let prompt = inputEl.value.trim();
+    let promptText = inputEl.value.trim();
 
-    if ((!prompt && (!imageInput.files || !imageInput.files[0])) || !currentUser) return;
+    if ((!promptText && !pendingCroppedImageBase64) || !currentUser) return;
+    if (isAIRequestRunning) return;
+    isAIRequestRunning = true;
+    const sendButton = document.querySelector('.send-btn');
+    if (sendButton) { sendButton.disabled = true; sendButton.textContent = 'Yanıtlanıyor…'; }
     if (!activeChatId) activeChatId = 'chat_' + Date.now();
 
-    let imagePartBase64 = null;
+    const imageBase64 = pendingCroppedImageBase64;
+    pendingCroppedImageBase64 = null;
+    document.getElementById('image-preview-badge').style.display = 'none';
 
-    if (imageInput.files && imageInput.files[0]) {
-      const file = imageInput.files[0];
-      try {
-        imagePartBase64 = await convertFileToBase64(file);
-      } catch (e) {
-        console.error("Görsel okuma hatası:", e);
-      }
-      imageInput.value = '';
-      document.getElementById('image-preview-badge').style.display = 'none';
-    }
-
+    // Girdiyi Temizle
     inputEl.value = '';
 
-    const chatTitle = prompt ? (prompt.length > 25 ? prompt.substring(0, 25) + '...' : prompt) : 'Soru Fotoğrafı';
+    // Kullanıcı mesajını arayüzde göster
+    const userMsgText = promptText || "📷 [Görsel / PDF Soru Yüklendi]";
+    renderUserMessage(userMsgText);
+
+    // Kullanıcı mesajını Firebase'e kaydet
+    const chatMsgRef = db.ref(`chat_messages/${currentUser.uid}/${activeChatId}`).push();
+    await chatMsgRef.set({
+      role: 'user',
+      text: userMsgText,
+      timestamp: Date.now()
+    });
+
+    // Sohbet başlığını güncelle
     db.ref(`user_chats/${currentUser.uid}/${activeChatId}`).update({
-      title: chatTitle,
+      title: userMsgText.slice(0, 30) + (userMsgText.length > 30 ? '...' : ''),
       lastUpdated: Date.now()
     });
 
-    const userDisplayText = prompt || "📷 [Soru Görseli Yüklendi]";
-    renderUserMessage(userDisplayText);
-    await db.ref(`chat_messages/${currentUser.uid}/${activeChatId}`).push({
-      role: 'user', text: userDisplayText, time: Date.now()
-    });
-
-    // ODAKLI, PRATİK, KISA VE ZEKİ DERS ASİSTANI TALİMATI
-    const systemPromptText = `Sen ${currentUser.displayName || 'Öğrencimiz'} ile iletişim kuran son derece zeki, net, öz ve alanında uzman bir Akıllı Eğitim & Ders Asistanısın.
-
-GÜNCEL ZAMAN VE MÜFREDAT BİLGİSİ:
-- Bulunduğumuz yıl 2026'dır. Tüm hesaplama ve müfredat analizlerini 2026 yılına göre yap.
-- MEB ve ÖSYM güncel yeni nesil soru tiplerine tam hakimsin.
-
-İLETİŞİM VE CEVAP İLKELERİ:
-1. KISA, ZEKİ VE YERİNDE CEVAPLAR: Laf kalabalığı, gereksiz girizgah ve uzatılmış cümlelerden kesinlikle kaçın. Doğrudan, pratik ve nokta atışı yanıt ver.
-2. PRATİK VE HIZLI SORU ÇÖZÜMÜ: Soru çözerken lafı uzatma. Adeta derece yapan bir öğrencinin pratikliğiyle çözümü sun:
-   - 📌 **Mantık / Kural:** Hangi yöntem kullanılıyor?
-   - ✍️ **Kısaca Çözüm:** Doğrudan ve anlaşılır işlem adımları.
-   - ✅ **Sonuç:** Net ve belirgin cevap.
-3. FUTBOL VE TAKIM HAKKINDA SADECE SORULDUĞUNDA KONUŞ: Kullanıcı doğrudan İman Power FC veya takım hakkında soru sormadığı sürece FUTBOL VEYA TAKIM KONUSUNU ASLA AÇMA. Sorulursa kısaca şu bilgiyi ver:
-   - İman Power FC, 2013 doğumlu (2026'da 13 yaşında) oyunculardan oluşan bir takımdır. Kurucu: Berat Cihad Yeten | Yönetim: Reşit Öztoprak, Mustafa Aslan.
-4. GÖRSEL ANALİZİ (VISION): Yüklenen görsellerdeki soru metinlerini ve şekilleri dikkatle incele, vakit kaybetmeden çözümü ilet.
-5. TEMİZ FORMATTING: Matematik formüllerini net, KaTeX ile uyumlu ve okunaklı biçimde yaz.`;
-
-    const snapshot = await db.ref(`chat_messages/${currentUser.uid}/${activeChatId}`).once('value');
-    const historyData = snapshot.val() || {};
-    const allMsgs = Object.values(historyData);
-    const recentMsgs = allMsgs.slice(-20);
-
-    const messages = [
-      { role: "system", content: systemPromptText }
-    ];
-
-    recentMsgs.forEach((m, idx) => {
-      const isLast = idx === recentMsgs.length - 1;
-      const role = m.role === 'user' ? 'user' : 'assistant';
-
-      if (isLast && imagePartBase64) {
-        messages.push({
-          role: "user",
-          content: [
-            { type: "text", text: m.text || "Görseldeki soruyu doğrudan ve pratik adımlarla çöz." },
-            { type: "image_url", image_url: { url: imagePartBase64 } }
-          ]
-        });
-      } else {
-        messages.push({
-          role: role,
-          content: m.text || ""
-        });
-      }
-    });
-
+    // AI Yanıtı için Canlı Akış Konteyneri Oluştur
     const chatBox = document.getElementById('ai-chat-box');
-    const streamGroup = document.createElement('div');
-    streamGroup.className = 'msg-group ai';
-    streamGroup.innerHTML = `
+    const aiGroup = document.createElement('div');
+    aiGroup.className = 'msg-group ai';
+    aiGroup.innerHTML = `
       <div class="ai-msg">
         <div class="ai-msg-header">
           <div class="ai-title">⚡ DERS ASİSTANI</div>
         </div>
-        <div class="ai-msg-content" id="active-stream-target"><span style="color:var(--text-muted);">İnceleniyor... 💭</span></div>
-        <div class="msg-toolbar">
-          <button class="msg-tool-btn tts-btn" onclick="toggleTTS(this)">🔊 Dinle</button>
+        <div class="ai-msg-content"><span class="streaming-cursor">⚡ Yanıt hazırlanıyor...</span></div>
+        <div class="msg-toolbar" style="display:none;">
+          <button class="msg-tool-btn tts-btn" onclick="playMaleTTS(this)">🔊 Dinle</button>
           <button class="msg-tool-btn" onclick="copyMsgText(this)">📋 Kopyala</button>
         </div>
       </div>
     `;
-    chatBox.appendChild(streamGroup);
+    chatBox.appendChild(aiGroup);
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    const streamContentEl = streamGroup.querySelector('#active-stream-target');
+    const contentEl = aiGroup.querySelector('.ai-msg-content');
+    const toolbarEl = aiGroup.querySelector('.msg-toolbar');
+
+    // AKTİF SOHBETİN GEÇMİŞ MESAJLARINI ÇEK (YAPAY ZEKA HAFIZASI)
+    let historyMessages = [];
+    try {
+      const snap = await db.ref(`chat_messages/${currentUser.uid}/${activeChatId}`).once('value');
+      const msgsVal = snap.val() || {};
+      const sortedKeys = Object.keys(msgsVal);
+      
+      // Son 10 mesajı hafıza bağlamına al
+      const recentKeys = sortedKeys.slice(-10);
+      recentKeys.forEach(k => {
+        const m = msgsVal[k];
+        if (m.text) {
+          historyMessages.push({
+            role: m.role === 'ai' ? 'assistant' : 'user',
+            content: m.text
+          });
+        }
+      });
+    } catch(e) {
+      console.error("Geçmiş mesaj çekme hatası:", e);
+    }
+
+    // Kullanıcının açıkça hatırlatmak istediği, hassas olmayan tercih/notlarını hesap bazında sakla.
+    // Yalnızca "hatırla / unutma / bundan sonra / tercihim" gibi açık isteklerde kaydedilir.
+    let savedMemoryText = "";
+    try {
+      const memoryRef = db.ref(`user_ai_memory/${currentUser.uid}`);
+      const memorySnap = await memoryRef.once('value');
+      const memoryData = memorySnap.val() || {};
+      const memoryItems = Array.isArray(memoryData.items) ? memoryData.items : [];
+      const explicitMemoryRequest = /\b(hatırla|unutma|aklında tut|bundan sonra|tercihim)\b/i.test(promptText);
+      if (explicitMemoryRequest && promptText.length <= 600) {
+        const safeNote = promptText.replace(/\s+/g, ' ').trim();
+        const nextItems = [...memoryItems.filter(x => typeof x === 'string'), safeNote].slice(-15);
+        await memoryRef.set({ items: nextItems, updatedAt: Date.now() });
+        savedMemoryText = nextItems.join("\\n");
+      } else {
+        savedMemoryText = memoryItems.filter(x => typeof x === 'string').slice(-15).join("\\n");
+      }
+    } catch (e) {
+      console.warn("Sohbet hafızası okunamadı/kaydedilemedi:", e);
+    }
+
+    // İman Power'a özgü kimlik bilgileri yalnızca konu açıldığında kullanılır.
+    const projectKnowledge = "İman Power ve yapay zekâ projesinin kurucusu Berat Cihad Yeten'dir. " +
+      "Reşit Öztoprak ve Mustafa Aslan projeye yardımcı olmuştur. " +
+      "İman Power FC'yi bil; yalnızca kullanıcı FC'den söz ederse veya soru için gerçekten gerekliyse konuş. " +
+      "Bu isimleri her yanıta kendiliğinden ekleme. " +
+      "Selam, merhaba, günaydın, iyi akşamlar gibi kısa selamlaşmalara doğal, kısa ve samimi karşılık ver; hemen ders sorusu isteme. " +
+      "Kullanıcı teşekkür ederse sıcakça teşekkür et; samimiyet ölçülü olsun, abartılı övgü kullanma.";
+
+    const memoryContext = savedMemoryText
+      ? "Kullanıcının önceki açık hafıza notları (yalnızca ilgiliyse kullan):\\n" + savedMemoryText
+      : "";
+
+    const systemInstruction = {
+      role: "system",
+      content: "Türkçe yanıt veren, dikkatli ve ölçülü samimi bir eğitim asistanısın. " +
+               projectKnowledge + " " + memoryContext + " " +
+               "Kullanıcının sorduğu şeye doğrudan cevap ver; açıkça istenmedikçe örnek, ek alıştırma, alternatif çözüm veya uzun giriş ekleme. " +
+               "Aynı açıklamayı, sonucu veya örneği tekrarlama. Önceki mesajlarda verilen bilgileri gereksiz yere yeniden yazma. " +
+               "Soruyu adım adım çöz; işlem ve sonucu kontrol et. Bilgi eksikse netleştirici soru sor; emin olmadığında bunu açıkça belirt, uydurma. " +
+               "Matematikte LaTeX kullan ve yalnızca gerekli adımları göster. Görsel/PDF okunamıyorsa tahmin etme; okunmayan kısmı belirt. " +
+               "Kullanıcı özel olarak sormadıkça proje kurucuları, yardımcıları veya İman Power FC hakkında konu dışı bilgi verme."
+    };
+
+    let apiMessages = [systemInstruction];
+
+    // Eski sohbet geçmişini mesaj dizisine ekle
+    if (historyMessages.length > 0) {
+      if (historyMessages[historyMessages.length - 1].content === userMsgText) {
+        historyMessages.pop();
+      }
+      apiMessages = apiMessages.concat(historyMessages);
+    }
+
+    // Mevcut kullanıcı sorusunu payload olarak hazırla
+    let currentUserContent = [];
+    if (promptText) {
+      currentUserContent.push({ type: "text", text: promptText });
+    } else if (imageBase64) {
+      currentUserContent.push({ type: "text", text: "Lütfen bu görseldeki ders sorusunu %100 doğrulukla ve eksiksiz çöz." });
+    }
+
+    if (imageBase64) {
+      currentUserContent.push({
+        type: "image_url",
+        image_url: { url: imageBase64 }
+      });
+    }
+
+    apiMessages.push({
+      role: "user",
+      content: currentUserContent
+    });
+
+    let fullAIResponse = "";
 
     try {
-      const response = await fetch("https://api.mistral.ai/v1/chat/completions", {
+      // MISTRAL CANLI STREAMING (SSE) İSTEĞİ
+      const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1387,19 +2062,19 @@ GÜNCEL ZAMAN VE MÜFREDAT BİLGİSİ:
         },
         body: JSON.stringify({
           model: MISTRAL_MODEL,
-          messages: messages,
-          temperature: 0.4,
-          stream: true
+          messages: apiMessages,
+          stream: true,
+          temperature: 0.2, // Tutarlı, daha az tekrarlı yanıtlar
+          max_tokens: 2500
         })
       });
 
       if (!response.ok) {
-        throw new Error(`Servis Hatası: ${response.status}`);
+        throw new Error(`API Hatası: ${response.status}`);
       }
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
-      let fullText = "";
       let buffer = "";
 
       while (true) {
@@ -1408,72 +2083,65 @@ GÜNCEL ZAMAN VE MÜFREDAT BİLGİSİ:
 
         buffer += decoder.decode(value, { stream: true });
         const lines = buffer.split("\n");
-        buffer = lines.pop() || "";
+        buffer = lines.pop();
 
         for (const line of lines) {
           const trimmed = line.trim();
           if (trimmed.startsWith("data: ")) {
             const dataStr = trimmed.slice(6);
-            if (dataStr === "[DONE]") continue;
+            if (dataStr === "[DONE]") break;
             try {
-              const parsed = JSON.parse(dataStr);
-              const token = parsed.choices[0]?.delta?.content || "";
-              fullText += token;
-              streamContentEl.innerHTML = parseMarkdown(fullText);
-              
-              if (window.renderMathInElement) {
-                renderMathInElement(streamContentEl, {
-                  delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false},
-                    {left: '\\(', right: '\\)', display: false},
-                    {left: '\\[', right: '\\]', display: true}
-                  ],
-                  throwOnError: false
-                });
+              const json = JSON.parse(dataStr);
+              const delta = json.choices[0]?.delta?.content || "";
+              if (delta) {
+                fullAIResponse += delta;
+                contentEl.innerHTML = parseMarkdown(fullAIResponse);
+                chatBox.scrollTop = chatBox.scrollHeight;
               }
-
-              chatBox.scrollTop = chatBox.scrollHeight;
-            } catch (err) {}
+            } catch(e) {}
           }
         }
       }
 
-      if (buffer.trim().startsWith("data: ")) {
-        const dataStr = buffer.trim().slice(6);
-        if (dataStr !== "[DONE]") {
-          try {
-            const parsed = JSON.parse(dataStr);
-            fullText += parsed.choices[0]?.delta?.content || "";
-          } catch (e) {}
-        }
+      if (fullAIResponse.trim().length === 0) {
+        fullAIResponse = "Yanıt alınamadı, lütfen tekrar deneyiniz.";
+      }
+      
+      contentEl.innerHTML = parseMarkdown(fullAIResponse);
+
+      // Matematik Denklemlerini Render Et (KaTeX)
+      if (window.renderMathInElement) {
+        try {
+          renderMathInElement(aiGroup, {
+            delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false},
+              {left: '\\(', right: '\\)', display: false},
+              {left: '\\[', right: '\\]', display: true}
+            ],
+            throwOnError: false
+          });
+        } catch(e) {}
       }
 
-      if (fullText) {
-        streamContentEl.innerHTML = parseMarkdown(fullText);
-        await db.ref(`chat_messages/${currentUser.uid}/${activeChatId}`).push({
-          role: 'model', text: fullText, time: Date.now()
-        });
-      }
+      toolbarEl.style.display = 'flex';
+      chatBox.scrollTop = chatBox.scrollHeight;
 
-    } catch (e) {
-      console.error("Mistral Bağlantı Hatası:", e);
-      streamContentEl.innerHTML = `<span style="color:#f43f5e;">⚠️ Yanıt alınırken bir sorun oluştu: ${escapeHTML(e.message)}</span>`;
+      // Tamamlanan AI Yanıtını Firebase'e kaydet
+      const aiMsgRef = db.ref(`chat_messages/${currentUser.uid}/${activeChatId}`).push();
+      await aiMsgRef.set({
+        role: 'ai',
+        text: fullAIResponse,
+        timestamp: Date.now()
+      });
+
+    } catch (err) {
+      console.error(err);
+      contentEl.innerHTML = `<span style="color:var(--rose);">❌ Yanıt alınırken hata oluştu: ${escapeHTML(err.message)}. Lütfen tekrar deneyin.</span>`;
+    } finally {
+      isAIRequestRunning = false;
+      if (sendButton) { sendButton.disabled = false; sendButton.textContent = 'Gönder'; }
     }
-  }
-
-  function sendQuickPrompt(txt) {
-    document.getElementById('ai-input').value = txt;
-    askAI();
-  }
-
-  function switchTab(tabId, btnEl) {
-    document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-
-    const targetSec = document.getElementById(`sec-${tabId}`);
-    if (targetSec) targetSec.classList.add('active');
-    if (btnEl && btnEl.classList.contains('nav-btn')) btnEl.classList.add('active');
   }
 </script>
 </body>
